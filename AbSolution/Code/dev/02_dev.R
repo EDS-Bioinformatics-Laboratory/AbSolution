@@ -25,8 +25,10 @@ golem::add_module(name = "name_of_module2", with_test = TRUE) # Name of the modu
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-golem::add_fct("helpers", with_test = TRUE)
-golem::add_utils("helpers", with_test = TRUE)
+golem::add_fct("3_Data_processing", with_test = TRUE)
+golem::add_utils("1_Parsing", with_test = TRUE)
+golem::add_utils("3_Data_processing", with_test = TRUE)
+
 
 ## External resources
 ## Creates .js and .css files at inst/app/www

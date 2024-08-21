@@ -11,6 +11,8 @@ not_null <- Negate(is.null)
 
 not_na <- Negate(is.na)
 
+'%!in%' <- function(x,y)!('%in%'(x,y))
+
 #' Removes the null from a vector
 #'
 #' @noRd
