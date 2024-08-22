@@ -7,7 +7,7 @@
 #' @importFrom utils  glob2rx
 #' @import bigstatsr
 #' @import data.table
-#' @importFrom tools file_path_sans_ext
+#' @import tools
 #' @import bigparallelr
 #' @noRd
 merge_FBMs =function(filepath) {
@@ -106,7 +106,7 @@ merge_FBMs =function(filepath) {
 #' @import bigstatsr
 #' @import bigparallelr
 #' @noRd
-filter_merged=function(copy_FBM, merged_df, merged_header, use_rgermline,
+filter_merged=function(FBM, merged_df, merged_header, use_rgermline,
                        use_repertoire, use_productive,use_nonproductive,
                        my_regions, my_var_elements, my_vars, my_vartypes,
                        use_sharedVDJ, V_J_to_use, groups, group_A, group_B,
@@ -118,8 +118,8 @@ filter_merged=function(copy_FBM, merged_df, merged_header, use_rgermline,
                        VDJ_maximize_clones, VDJ_normalized_per_sample,
                        my_clone_def) {
   '%!in%' <- function(x,y)!('%in%'(x,y))
-  columns=c(1:ncol(copy_FBM))
-  rows=c(1:nrow(copy_FBM))
+  columns=c(1:ncol(FBM))
+  rows=c(1:nrow(FBM))
   index_repertoire=which(merged_df$Sequence_type=="Repertoire")
 
   print("Original sizes: ")
@@ -142,8 +142,8 @@ filter_merged=function(copy_FBM, merged_df, merged_header, use_rgermline,
     rows=rows[which(rows%!in%index_repertoire)]
   }
 
-  rows=rows[which(rows %in% intersect(which(copy_FBM[,which(merged_header == "AA_Whole_Replacement_muts")]>=R_mut_threshold_min),
-                                      which(copy_FBM[,which(merged_header == "AA_Whole_Replacement_muts")] <=R_mut_threshold_max)))]
+  rows=rows[which(rows %in% intersect(which(FBM[,which(merged_header == "AA_Whole_Replacement_muts")]>=R_mut_threshold_min),
+                                      which(FBM[,which(merged_header == "AA_Whole_Replacement_muts")] <=R_mut_threshold_max)))]
 
 
   set.seed(1234)
@@ -577,14 +577,14 @@ filter_merged=function(copy_FBM, merged_df, merged_header, use_rgermline,
   print("Big_summary for")
   print(length(merged_header[columns]))
 
-  big_summary=bigstatsr::big_colstats(copy_FBM, ind.row = rows, ind.col=columns, ncores=nb_cores())
+  big_summary=bigstatsr::big_colstats(FBM, ind.row = rows, ind.col=columns, ncores=nb_cores())
   vars_to_remove=columns[unique(c(which(big_summary$sum ==0), which(big_summary$var ==0),
                                   which(is.na(big_summary$sum)),which(is.infinite(big_summary$sum)),which(is.nan(big_summary$sum)),
                                   which(is.na(big_summary$var)),which(is.infinite(big_summary$var)),which(is.nan(sqrt(big_summary$var)))
   ))]
 
   # if(any(is.nan(sqrt(big_summary$var)))) {
-  #   print(copy_FBM[rows, columns[which(is.nan(sqrt(big_summary$var)))]])
+  #   print(FBM[rows, columns[which(is.nan(sqrt(big_summary$var)))]])
   # }
   columns=columns[which(columns%!in%vars_to_remove)]
 
@@ -594,7 +594,7 @@ filter_merged=function(copy_FBM, merged_df, merged_header, use_rgermline,
     merged_df$Binary_classif[which(merged_df[[groups]] %in% group_B)]=1
     tmp_rows=rows[(which(rows %in% which(merged_df[[groups]] %in% c(group_B, group_A))))]
     print(table(merged_df$Binary_classif[tmp_rows]))
-    testuniv <- big_univLogReg(copy_FBM, merged_df$Binary_classif[tmp_rows], ind.train = tmp_rows,
+    testuniv <- big_univLogReg(FBM, merged_df$Binary_classif[tmp_rows], ind.train = tmp_rows,
                                ind.col =columns,
                                # covar.train = covar[covar_training, ],
                                ncores=nb_cores())
@@ -633,19 +633,21 @@ filter_merged=function(copy_FBM, merged_df, merged_header, use_rgermline,
   return(list(ROWS=rows, COLUMNS=columns))
 }
 
-#' 3_Data_processing
+#' Big PCA
 #'
-#' @description A fct function
-#'
-#' @return The return value, if any, from executing the function.
+#' @description A function to perform PCA over a FBM object.
+#' @param FBM A FBM object.
+#' @param rows Index of rows of the FBM that will be used to calculate the PCA.
+#' @param columns Index of columns of the FBM that will be used to calculate the PCA..
+#' @return A list with the PCA scores and its explained variances
 #' @import bigstatsr
 #' @import stats
 #' @noRd
-big_PCA_plot=function(copy_FBM, rows, columns){
+big_PCA=function(FBM, rows, columns){
 
   if(length(columns)>0 && length(rows)>0) {
 
-    testing= bigstatsr::big_randomSVD(copy_FBM,
+    testing= bigstatsr::big_randomSVD(FBM,
                                       fun.scaling = big_scale(),
                                       ind.row = rows,
                                       ind.col = columns,
@@ -656,7 +658,7 @@ big_PCA_plot=function(copy_FBM, rows, columns){
 
     PCA_error_perhaps=tryCatch({
 
-      var_exp <- testing$d^2 / big_norm(copy_FBM,ind.row=rows,
+      var_exp <- testing$d^2 / big_norm(FBM,ind.row=rows,
                                                    ind.col=columns,
                                                    center = testing$center,
                                                    scale = testing$scale)

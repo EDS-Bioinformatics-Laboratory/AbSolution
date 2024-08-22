@@ -676,9 +676,38 @@ app_server <- function(input, output, session) {
     # seecol(usecol(pal = Ab_palette(list_values[c("V","D","J")], vect_genes_comb=sort(unique(test$V_and_D_and_J)), type_values=c("VDJ")), n = "all"))
 
 
-    tmp_rows_cols=filter_merged(Big_mem_values$Big_DF,  Big_mem_values$Short_DF, Big_mem_values$Header,"Reconstructed germline" %in%  input$use_what, "Repertoire" %in%  input$use_what, "Productive" %in% input$use_productive_or_not,"Non-productive" %in% input$use_productive_or_not,
-                                input$my_regions, input$my_var_elements, input$my_vars, input$my_vartypes, input$use_sharedVDJ, input$VJ_included, input$groups_selected, input$group_A, input$group_B, input$group_C, input$use_univlog, input$samples_selected, input$exclude_variables, input$pval_type, input$pval_cutoff, input$estimate_cutoff, input$number_selected_vars,
-                                input$VJ_deselected, input$VDJ_normalized_per_size, input$Rmut_filter[1], input$Rmut_filter[2], input$work_as_categories, input$VDJ_maximize_clones, input$VDJ_normalized_per_sample, input$my_clone_def)
+    tmp_rows_cols=filter_merged(Big_mem_values$Big_DF,
+                                Big_mem_values$Short_DF,
+                                Big_mem_values$Header,
+                                "Reconstructed germline" %in%  input$use_what,
+                                "Repertoire" %in%  input$use_what,
+                                "Productive" %in% input$use_productive_or_not,
+                                "Non-productive" %in% input$use_productive_or_not,
+                                input$my_regions,
+                                input$my_var_elements,
+                                input$my_vars,
+                                input$my_vartypes,
+                                input$use_sharedVDJ,
+                                input$VJ_included,
+                                input$groups_selected,
+                                input$group_A,
+                                input$group_B,
+                                input$group_C,
+                                input$use_univlog,
+                                input$samples_selected,
+                                input$exclude_variables,
+                                input$pval_type,
+                                input$pval_cutoff,
+                                input$estimate_cutoff,
+                                input$number_selected_vars,
+                                input$VJ_deselected,
+                                input$VDJ_normalized_per_size,
+                                input$Rmut_filter[1],
+                                input$Rmut_filter[2],
+                                input$work_as_categories,
+                                input$VDJ_maximize_clones,
+                                input$VDJ_normalized_per_sample,
+                                input$my_clone_def)
 
     Exploration_values$rows=tmp_rows_cols$ROWS
     Exploration_values$columns=tmp_rows_cols$COLUMNS
@@ -707,10 +736,14 @@ app_server <- function(input, output, session) {
       }
 
       print(paste("PCAAAA:", length(Selection_values$rows), sep=""))
-      tmp_PCA=big_PCA_plot(Big_mem_values$Big_DF, Selection_values$rows, Selection_values$columns)
+      tmp_PCA=big_PCA(FBM=Big_mem_values$Big_DF,
+                           rows=Selection_values$rows,
+                           columns=Selection_values$columns)
       tmp_PCA[[1]]=as.data.frame(tmp_PCA[[1]])
       colnames(tmp_PCA[[1]])=paste("Dim_", c(1:5), sep="")
+      print("PCA 2")
       tmp_PCA[[1]]$Color=as.factor(unlist(Big_mem_values$Short_DF[Selection_values$rows,..selection]))
+      print("PCA 3")
       tmp_PCA[[1]]$Text_ID=Big_mem_values$Short_DF[Selection_values$rows,get("Text_ID")]
       tmp_PCA[[1]]$Seq_type=factor(unlist(Big_mem_values$Short_DF[Selection_values$rows,get("Sequence_type")]), levels=c("Reconstructed_germline", "Repertoire"))
       Selection_values$Scores=tmp_PCA[[1]]
@@ -790,7 +823,9 @@ app_server <- function(input, output, session) {
         selection=input$plot_color_expl
       }
 
-      tmp_PCAex=big_PCA_plot(Big_mem_values$Big_DF, Exploration_values$rows, Exploration_values$columns)
+      tmp_PCAex=big_PCA(FBM=Big_mem_values$Big_DF,
+                             rows=Exploration_values$rows,
+                             columns=Exploration_values$columns)
       tmp_PCAex[[1]]=as.data.frame(tmp_PCAex[[1]])
       colnames(tmp_PCAex[[1]])=paste("Dim_", c(1:5), sep="")
       tmp_PCAex[[1]]$Color=as.factor(unlist(Big_mem_values$Short_DF[Exploration_values$rows,..selection]))
@@ -963,143 +998,41 @@ app_server <- function(input, output, session) {
         )
 
 
-      dfk_unselected <- data.frame(x = as.numeric(), y=as.numeric(),
-                                   Text_ID=as.character(), Color=as.character(),
-                                   Symbol=as.character())
+      ##NEW
+      test=test[(order(test$Color)),]
 
-      dfk_selected <- data.frame(x = as.numeric(), y=as.numeric(),
-                                 Text_ID=as.character(), Color=as.character(),
-                                 Width_border=as.numeric(),
-                                 Symbol=as.character())
-      dfk_selected_legend <- data.frame(x = as.numeric(), y=as.numeric(),
-                                 Text_ID=as.character(), Color=as.character(),
-                                 Width_border=as.numeric(),
-                                 Symbol=as.character())
+      tmp_test_ns=test[intersect(intersect(which(test$Selected != "Clones"),
+                                           which(test$Selected != "User selected")),
+                                 which(test$Selected != "Counterpart")),]
 
-      dfk_selected_counterpart <- data.frame(x = as.numeric(), y=as.numeric(),
-                                 Text_ID=as.character(), Color=as.character(),
-                                 Width_border=as.numeric(),
-                                 Symbol=as.character())
-
-      for (Color in sort(unique(test$Color))){
-        tmp_index=which(test$Color == Color)
-        SELECTED=F
-
-
-        if(any("User selected" %in% c(unique(test$Selected[tmp_index])))) {
-          tmp_tmp_index=which(test$Selected[tmp_index] == "User selected")
-          tmp_tmp_index_counterpart=which(test$Selected[tmp_index] == "Counterpart")
-          tmp_tmp_index_no=intersect(which(test$Selected[tmp_index] != "User selected"), which(test$Selected[tmp_index] != "Counterpart"))
-
-          SELECTED=T
-        }
-
-        if(any("Clones" %in% c(unique(test$Selected[tmp_index])))) {
-          tmp_tmp_index=which(test$Selected[tmp_index] == "Clones")
-          tmp_tmp_index_counterpart=which(test$Selected[tmp_index] == "Counterpart")
-          tmp_tmp_index_no=intersect(which(test$Selected[tmp_index] != "User selected"), which(test$Selected[tmp_index] != "Counterpart"))
-
-          SELECTED=T
-        }
-        if(SELECTED) {
-
-          tmp_dfku <- data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index_no]],
-                                y=test$Dim_2[tmp_index[tmp_tmp_index_no]],
-                                Text_ID=test$Text_ID[tmp_index[tmp_tmp_index_no]],
-                                Color=test$Color[tmp_index[tmp_tmp_index_no]],
-                                Symbol=test$Symbol[tmp_index[tmp_tmp_index_no]])
-          dfk_unselected=rbind(dfk_unselected, tmp_dfku)
-
-          tmp_dfk=data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index]],
-                             y=test$Dim_2[tmp_index[tmp_tmp_index]],
-                             Text_ID=test$Text_ID[tmp_index[tmp_tmp_index]],
-                             Width_border=test$Width_border[tmp_index[tmp_tmp_index]],
-                             Color=test$Color[tmp_index[tmp_tmp_index]],
-                             Symbol=test$Symbol[tmp_index[tmp_tmp_index]])
-
-          if(nrow(tmp_dfk_u)==0){
-            dfk_selected_legend <- rbind(dfk_selected_legend,tmp_dfk)
-          } else {
-            dfk_selected <- rbind(dfk_selected,tmp_dfk)
-          }
+      fig <- fig %>%
+        add_trace(data=tmp_test_ns,
+                  x = ~Dim_1,
+                  y = ~Dim_2,
+                  opacity = 0.7,
+                  text =  ~ Text_ID,
+                  key = ~ Text_ID,
+                  color = ~Color,
+                  colors = Sel_colors,
+                  # size = ~Width_border,
+                  type = 'scatter',
+                  mode = 'markers',
+                  fill = ~'',
+                  hovertemplate = paste('<b>%{text}</b>'),
+                  marker = list(sizemode = 'diameter'),
+                  name= tmp_test_ns$Color,
+                  legendgroup= tmp_test_ns$Color
+        )
 
 
+      tmp_test=test[which(test$Selected == "Counterpart"),]
 
-          tmp_dfk=data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index_counterpart]],
-                             y=test$Dim_2[tmp_index[tmp_tmp_index_counterpart]],
-                             Text_ID=test$Text_ID[tmp_index[tmp_tmp_index_counterpart]],
-                             Width_border=test$Width_border[tmp_index[tmp_tmp_index_counterpart]],
-                             Color=test$Color[tmp_tmp_index_counterpart[tmp_tmp_index_counterpart]],
-                             Symbol=test$Symbol[tmp_index[tmp_tmp_index_counterpart]])
-
-          dfk_selected_counterpart=rbind(dfk_selected_counterpart, tmp_dfk)
-
-        } else {
-          tmp_dfk <- data.frame(x = test$Dim_1[tmp_index],
-                            y=test$Dim_2[tmp_index],
-                            Text_ID=test$Text_ID[tmp_index],
-                            Color=test$Color[tmp_index],
-                            Symbol=test$Symbol[tmp_index])
-
-          dfk_unselected=rbind(dfk_unselected, tmp_dfk)
-
-        }
-      }
-
-      if(nrow(dfk_selected)>0){
+      if(nrow(tmp_test)>0) {
         fig <- fig %>%
-          add_trace(data=dfk_selected,
-                    x = ~x,
-                    y = ~y,
-                    opacity = 0.9,
-                    text =  ~ Text_ID,
-                    key = ~ Text_ID,
-                    color = ~Color,
-                    symbol= ~Symbol,
-                    # size = ~Width_border,
-                    type = 'scatter',
-                    mode = 'markers',
-                    fill = ~'',
-                    hovertemplate = paste('<b>%{text}</b>'),
-                    marker = list(
-                      line=list(color="black",
-                                width=dfk_selected$Width_border[1])),
-                    name= dfk_selected$Color, showlegend=FALSE,
-                    legendgroup=dfk_selected$Color
-          )
-
-
-      }
-
-      if(nrow(dfk_selected_legend)>0) {
-        fig <- fig %>%
-          add_trace(data=dfk_selected_legend,
-                    x = ~x,
-                    y = ~y,
-                    opacity = 0.9,
-                    text =  ~ Text_ID,
-                    key = ~ Text_ID,
-                    color = ~Color,
-                    symbol= ~Symbol,
-                    # size = ~Width_border,
-                    type = 'scatter',
-                    mode = 'markers',
-                    fill = ~'',
-                    hovertemplate = paste('<b>%{text}</b>'),
-                    marker = list(
-                      line=list(color="black",
-                                width=dfk_selected_legend$Width_border[1])),
-                    name= dfk_selected_legend$Color, showlegend=TRUE,
-                    legendgroup=dfk_selected_legend$Color
-          )
-      }
-
-      if(nrow(dfk_selected_legend)>0 || nrow(dfk_selected)>0) {
-        fig <- fig %>%
-          add_trace(data=dfk_selected_counterpart,
-                    x = ~x,
-                    y = ~y,
-                    opacity = 0.9,
+          add_trace(data=tmp_test,
+                    x = ~Dim_1,
+                    y = ~Dim_2,
+                    opacity = 0.7,
                     text =  ~ Text_ID,
                     key = ~ Text_ID,
                     color = ~Color,
@@ -1112,32 +1045,295 @@ app_server <- function(input, output, session) {
                     hovertemplate = paste('<b>%{text}</b>'),
                     marker =  list(
                       line=list(color="#ff4d6d",
-                                width=dfk_selected_counterpart$Width_border[1])),
-                    name= dfk_selected_counterpart$Color, showlegend=FALSE,
-                    legendgroup=dfk_selected_counterpart$Color
+                                width=tmp_test$Width_border[1])),
+                    name= tmp_test$Color, showlegend=FALSE,
+                    legendgroup=tmp_test$Color
           )
       }
 
-      if(nrow(dfk_unselected)>0) {
-        fig <- fig %>%
-          add_trace(data=dfk_unselected,
-                    x = ~x,
-                    y = ~y,
-                    opacity = 0.9,
-                    text =  ~ Text_ID,
-                    key = ~ Text_ID,
-                    color = ~Color,
-                    colors = Sel_colors,
-                    # size = ~Width_border,
-                    type = 'scatter',
-                    mode = 'markers',
-                    fill = ~'',
-                    hovertemplate = paste('<b>%{text}</b>'),
-                    marker = list(sizemode = 'diameter'),
-                    name= dfk_unselected$Color,
-                    legendgroup= dfk_unselected$Color
-          )
+      tmp_test=test[which(test$Selected == "Clones"),]
+
+      if(nrow(tmp_test)>0) {
+        not_in_leg=which(unique(tmp_test$Color) %!in% unique(tmp_test_ns$Color))
+        if(length(not_in_leg)>0) {
+          tmp_tmp_test=tmp_test[which(tmp_test$Color %in% not_in_leg),]
+
+          fig <- fig %>%
+            add_trace(data=tmp_tmp_test,
+                      x = ~x,
+                      y = ~y,
+                      opacity = 0.9,
+                      text =  ~ Text_ID,
+                      key = ~ Text_ID,
+                      color = ~Color,
+                      symbol= ~Symbol,
+                      # size = ~Width_border,
+                      type = 'scatter',
+                      mode = 'markers',
+                      fill = ~'',
+                      hovertemplate = paste('<b>%{text}</b>'),
+                      marker = list(
+                        line=list(color="black",
+                                  width=tmp_tmp_test$Width_border[1])),
+                      name= tmp_tmp_test$Color, showlegend=TRUE,
+                      legendgroup=tmp_tmp_test$Color
+            )
+        }
+        tmp_tmp_test=tmp_test[which(tmp_test$Color %!in% not_in_leg),]
+        if(nrow(tmp_tmp_test)>0) {
+          fig <- fig %>%
+            add_trace(data=tmp_tmp_test,
+                      x = ~x,
+                      y = ~y,
+                      opacity = 0.9,
+                      text =  ~ Text_ID,
+                      key = ~ Text_ID,
+                      color = ~Color,
+                      symbol= ~Symbol,
+                      # size = ~Width_border,
+                      type = 'scatter',
+                      mode = 'markers',
+                      fill = ~'',
+                      hovertemplate = paste('<b>%{text}</b>'),
+                      marker = list(
+                        line=list(color="black",
+                                  width=tmp_tmp_test$Width_border[1])),
+                      name= tmp_tmp_test$Color, showlegend=FALSE,
+                      legendgroup=tmp_tmp_test$Color
+            )
+        }
+
       }
+
+      tmp_test=test[which(test$Selected == "User selected"),]
+
+      if(nrow(tmp_test)>0) {
+        not_in_leg=which(unique(tmp_test$Color) %!in% unique(tmp_test_ns$Color))
+        if(length(not_in_leg)>0) {
+          tmp_tmp_test=tmp_test[which(tmp_test$Color %in% not_in_leg),]
+
+          fig <- fig %>%
+            add_trace(data=tmp_tmp_test,
+                      x = ~x,
+                      y = ~y,
+                      opacity = 0.9,
+                      text =  ~ Text_ID,
+                      key = ~ Text_ID,
+                      color = ~Color,
+                      symbol= ~Symbol,
+                      # size = ~Width_border,
+                      type = 'scatter',
+                      mode = 'markers',
+                      fill = ~'',
+                      hovertemplate = paste('<b>%{text}</b>'),
+                      marker = list(
+                        line=list(color="black",
+                                  width=tmp_tmp_test$Width_border[1])),
+                      name= tmp_tmp_test$Color, showlegend=TRUE,
+                      legendgroup=tmp_tmp_test$Color
+            )
+        }
+        tmp_tmp_test=tmp_test[which(tmp_test$Color %!in% not_in_leg),]
+        if(nrow(tmp_tmp_test)>0) {
+          fig <- fig %>%
+            add_trace(data=tmp_tmp_test,
+                      x = ~x,
+                      y = ~y,
+                      opacity = 0.9,
+                      text =  ~ Text_ID,
+                      key = ~ Text_ID,
+                      color = ~Color,
+                      symbol= ~Symbol,
+                      # size = ~Width_border,
+                      type = 'scatter',
+                      mode = 'markers',
+                      fill = ~'',
+                      hovertemplate = paste('<b>%{text}</b>'),
+                      marker = list(
+                        line=list(color="black",
+                                  width=tmp_tmp_test$Width_border[1])),
+                      name= tmp_tmp_test$Color, showlegend=FALSE,
+                      legendgroup=tmp_tmp_test$Color
+            )
+        }
+
+      }
+      ##OLD
+      # dfk_unselected <- data.frame(x = as.numeric(), y=as.numeric(),
+      #                              Text_ID=as.character(), Color=as.character(),
+      #                              Symbol=as.character())
+      #
+      # dfk_selected <- data.frame(x = as.numeric(), y=as.numeric(),
+      #                            Text_ID=as.character(), Color=as.character(),
+      #                            Width_border=as.numeric(),
+      #                            Symbol=as.character())
+      # dfk_selected_legend <- data.frame(x = as.numeric(), y=as.numeric(),
+      #                            Text_ID=as.character(), Color=as.character(),
+      #                            Width_border=as.numeric(),
+      #                            Symbol=as.character())
+      #
+      # dfk_selected_counterpart <- data.frame(x = as.numeric(), y=as.numeric(),
+      #                            Text_ID=as.character(), Color=as.character(),
+      #                            Width_border=as.numeric(),
+      #                            Symbol=as.character())
+      #
+      # for (Color in sort(unique(test$Color))){
+      #   tmp_index=which(test$Color == Color)
+      #   SELECTED=F
+      #
+      #
+      #   if(any("User selected" %in% c(unique(test$Selected[tmp_index])))) {
+      #     tmp_tmp_index=which(test$Selected[tmp_index] == "User selected")
+      #     tmp_tmp_index_counterpart=which(test$Selected[tmp_index] == "Counterpart")
+      #     tmp_tmp_index_no=intersect(which(test$Selected[tmp_index] != "User selected"), which(test$Selected[tmp_index] != "Counterpart"))
+      #
+      #     SELECTED=T
+      #   }
+      #
+      #   if(any("Clones" %in% c(unique(test$Selected[tmp_index])))) {
+      #     tmp_tmp_index=which(test$Selected[tmp_index] == "Clones")
+      #     tmp_tmp_index_counterpart=which(test$Selected[tmp_index] == "Counterpart")
+      #     tmp_tmp_index_no=intersect(which(test$Selected[tmp_index] != "User selected"), which(test$Selected[tmp_index] != "Counterpart"))
+      #
+      #     SELECTED=T
+      #   }
+      #   if(SELECTED) {
+      #
+      #     tmp_dfku <- data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index_no]],
+      #                           y=test$Dim_2[tmp_index[tmp_tmp_index_no]],
+      #                           Text_ID=test$Text_ID[tmp_index[tmp_tmp_index_no]],
+      #                           Color=test$Color[tmp_index[tmp_tmp_index_no]],
+      #                           Symbol=test$Symbol[tmp_index[tmp_tmp_index_no]])
+      #     dfk_unselected=rbind(dfk_unselected, tmp_dfku)
+      #
+      #     tmp_dfk=data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index]],
+      #                        y=test$Dim_2[tmp_index[tmp_tmp_index]],
+      #                        Text_ID=test$Text_ID[tmp_index[tmp_tmp_index]],
+      #                        Width_border=test$Width_border[tmp_index[tmp_tmp_index]],
+      #                        Color=test$Color[tmp_index[tmp_tmp_index]],
+      #                        Symbol=test$Symbol[tmp_index[tmp_tmp_index]])
+      #
+      #     if(nrow(tmp_dfk_u)==0){
+      #       dfk_selected_legend <- rbind(dfk_selected_legend,tmp_dfk)
+      #     } else {
+      #       dfk_selected <- rbind(dfk_selected,tmp_dfk)
+      #     }
+      #
+      #
+      #
+      #     tmp_dfk=data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index_counterpart]],
+      #                        y=test$Dim_2[tmp_index[tmp_tmp_index_counterpart]],
+      #                        Text_ID=test$Text_ID[tmp_index[tmp_tmp_index_counterpart]],
+      #                        Width_border=test$Width_border[tmp_index[tmp_tmp_index_counterpart]],
+      #                        Color=test$Color[tmp_tmp_index_counterpart[tmp_tmp_index_counterpart]],
+      #                        Symbol=test$Symbol[tmp_index[tmp_tmp_index_counterpart]])
+      #
+      #     dfk_selected_counterpart=rbind(dfk_selected_counterpart, tmp_dfk)
+      #
+      #   } else {
+      #     tmp_dfk <- data.frame(x = test$Dim_1[tmp_index],
+      #                       y=test$Dim_2[tmp_index],
+      #                       Text_ID=test$Text_ID[tmp_index],
+      #                       Color=test$Color[tmp_index],
+      #                       Symbol=test$Symbol[tmp_index])
+      #
+      #     dfk_unselected=rbind(dfk_unselected, tmp_dfk)
+      #
+      #   }
+      # }
+      #
+      # if(nrow(dfk_selected)>0){
+      #   fig <- fig %>%
+      #     add_trace(data=dfk_selected,
+      #               x = ~x,
+      #               y = ~y,
+      #               opacity = 0.9,
+      #               text =  ~ Text_ID,
+      #               key = ~ Text_ID,
+      #               color = ~Color,
+      #               symbol= ~Symbol,
+      #               # size = ~Width_border,
+      #               type = 'scatter',
+      #               mode = 'markers',
+      #               fill = ~'',
+      #               hovertemplate = paste('<b>%{text}</b>'),
+      #               marker = list(
+      #                 line=list(color="black",
+      #                           width=dfk_selected$Width_border[1])),
+      #               name= dfk_selected$Color, showlegend=FALSE,
+      #               legendgroup=dfk_selected$Color
+      #     )
+      #
+      #
+      # }
+      #
+      # if(nrow(dfk_selected_legend)>0) {
+      #   fig <- fig %>%
+      #     add_trace(data=dfk_selected_legend,
+      #               x = ~x,
+      #               y = ~y,
+      #               opacity = 0.9,
+      #               text =  ~ Text_ID,
+      #               key = ~ Text_ID,
+      #               color = ~Color,
+      #               symbol= ~Symbol,
+      #               # size = ~Width_border,
+      #               type = 'scatter',
+      #               mode = 'markers',
+      #               fill = ~'',
+      #               hovertemplate = paste('<b>%{text}</b>'),
+      #               marker = list(
+      #                 line=list(color="black",
+      #                           width=dfk_selected_legend$Width_border[1])),
+      #               name= dfk_selected_legend$Color, showlegend=TRUE,
+      #               legendgroup=dfk_selected_legend$Color
+      #     )
+      # }
+      #
+      # if(nrow(dfk_selected_legend)>0 || nrow(dfk_selected)>0) {
+      #   fig <- fig %>%
+      #     add_trace(data=dfk_selected_counterpart,
+      #               x = ~x,
+      #               y = ~y,
+      #               opacity = 0.9,
+      #               text =  ~ Text_ID,
+      #               key = ~ Text_ID,
+      #               color = ~Color,
+      #               colors = Sel_colors,
+      #               # size = ~Width_border,
+      #               symbol= ~Symbol,
+      #               type = 'scatter',
+      #               mode = 'markers',
+      #               fill = ~'',
+      #               hovertemplate = paste('<b>%{text}</b>'),
+      #               marker =  list(
+      #                 line=list(color="#ff4d6d",
+      #                           width=dfk_selected_counterpart$Width_border[1])),
+      #               name= dfk_selected_counterpart$Color, showlegend=FALSE,
+      #               legendgroup=dfk_selected_counterpart$Color
+      #     )
+      # }
+      #
+      # if(nrow(dfk_unselected)>0) {
+      #   fig <- fig %>%
+      #     add_trace(data=dfk_unselected,
+      #               x = ~x,
+      #               y = ~y,
+      #               opacity = 0.9,
+      #               text =  ~ Text_ID,
+      #               key = ~ Text_ID,
+      #               color = ~Color,
+      #               colors = Sel_colors,
+      #               # size = ~Width_border,
+      #               type = 'scatter',
+      #               mode = 'markers',
+      #               fill = ~'',
+      #               hovertemplate = paste('<b>%{text}</b>'),
+      #               marker = list(sizemode = 'diameter'),
+      #               name= dfk_unselected$Color,
+      #               legendgroup= dfk_unselected$Color
+      #     )
+      # }
 
       fig <- fig %>%
         layout(title = 'Selection plot', plot_bgcolor = "#e5ecf6",legend = list(orientation = 'v',y=0),showlegend=T, xaxis = list(title =  if(input$Selection_plot_type == "PCA") {paste('Dim ', dim1,' (', 100*Selection_values$Variance_explained[dim1], "%)", sep="")} else if(input$Selection_plot_type == "UMAP") {"Dim  1"}  ),
@@ -1146,6 +1342,7 @@ app_server <- function(input, output, session) {
 
       ID_selected_values$subclones=event_data("plotly_selected")
 
+      print("Figure")
       fig%>% toWebGL()
     }
 
@@ -1214,8 +1411,32 @@ app_server <- function(input, output, session) {
       # ID_selected_values$subclones=event_data("plotly_selected")
       # fig_ex
 
-      Ex_colors=unlist(branded_colors[c(1:length(unique(Exploration_values$Scores$Color)))])
-      names(Ex_colors)=sort(unique(Exploration_values$Scores$Color))
+      if(input$plot_color_expl == "Best_V"){
+        print("VVV")
+        Ex_colors=Big_mem_color_values$V
+      } else if (input$plot_color_expl == "Best_J") {
+        Ex_colors=Big_mem_color_values$J
+      } else if(input$plot_color_expl == "Best_D") {
+
+        Ex_colors=Big_mem_color_values$D
+
+      } else if(input$plot_color_expl == "V_and_D_and_J") {
+        print("V_and_D_and_J")
+        Ex_colors=Big_mem_color_values$VDJ
+
+      } else if(input$plot_color_expl == "V_and_J"){
+        print("VV_and_JVV")
+        Ex_colors=Big_mem_color_values$VJ
+      } else {
+        print("ADAD")
+        print(input$plot_color_expl)
+        # Sel_colors=unlist(branded_colors[c(1:length(unique(Selection_values$Scores$Color)))])
+        Ex_colors=Ab_palette(list_values=unique(Exploration_values$Scores$Color),
+                              vect_genes_comb=NA,
+                              type_values="cualitative",
+                              colorblind=F)
+        names(Ex_colors)=sort(unique(Exploration_values$Scores$Color))
+      }
 
       print(input$plot_color_expl)
       # if(input$plot_color_expl =="V_gene"){
@@ -1279,7 +1500,8 @@ app_server <- function(input, output, session) {
       test$Dim_1=tmpDim_1
       test$Dim_2=tmpDim_2
 
-      fig <- plot_ly(data=test, type = 'scatter', mode = 'markers')   %>%
+      fig <- plot_ly(data=test, type = 'scatter', mode = 'markers',
+                     colors= Ex_colors)   %>%
         config(
           toImageButtonOptions = list(
             format = "png",
@@ -1289,38 +1511,74 @@ app_server <- function(input, output, session) {
           )
         )
 
-      for (Color in unique(test$Color)){
-        tmp_index=which(test$Color == Color)
-        SELECTED=F
+      ##NEW
+      test=test[(order(test$Color)),]
 
-        if(any("User selected" %in% c(unique(test$Selected[tmp_index])))) {
-          tmp_tmp_index=which(test$Selected[tmp_index] == "User selected")
-          tmp_tmp_index_counterpart=which(test$Selected[tmp_index] == "Counterpart")
-          tmp_tmp_index_no=intersect(which(test$Selected[tmp_index] != "User selected"), which(test$Selected[tmp_index] != "Counterpart"))
+      tmp_test_ns=test[intersect(intersect(which(test$Selected != "Clones"),
+                                           which(test$Selected != "User selected")),
+                                 which(test$Selected != "Counterpart")),]
 
-          SELECTED=T
-        }
+      fig <- fig %>%
+        add_trace(data=tmp_test_ns,
+                  x = ~Dim_1,
+                  y = ~Dim_2,
+                  opacity = 0.7,
+                  text =  ~ Text_ID,
+                  key = ~ Text_ID,
+                  color = ~Color,
+                  colors = Ex_colors,
+                  # size = ~Width_border,
+                  type = 'scatter',
+                  mode = 'markers',
+                  fill = ~'',
+                  hovertemplate = paste('<b>%{text}</b>'),
+                  marker = list(sizemode = 'diameter'),
+                  name= tmp_test_ns$Color,
+                  legendgroup= tmp_test_ns$Color
+        )
 
-        # if(any("Clones" %in% c(unique(test$Selected[tmp_index])))) {
-        #   tmp_tmp_index=which(test$Selected[tmp_index] == "Clones")
-        #   tmp_tmp_index_counterpart=which(test$Selected[tmp_index] == "Counterpart")
-        #   tmp_tmp_index_no=intersect(which(test$Selected[tmp_index] != "User selected"), which(test$Selected[tmp_index] != "Counterpart"))
-        #
-        #   SELECTED=T
-        # }
-        if(SELECTED) {
-          dfk <- data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index]], y=test$Dim_2[tmp_index[tmp_tmp_index]], Text_ID=test$Text_ID[tmp_index[tmp_tmp_index]],
-                            Width_border=test$Width_border[tmp_index[tmp_tmp_index]], Color=test$Color[tmp_index[tmp_tmp_index]],
-                            Symbol=test$Symbol[tmp_index[tmp_tmp_index]])
+
+      tmp_test=test[which(test$Selected == "Counterpart"),]
+
+      if(nrow(tmp_test)>0) {
+        fig <- fig %>%
+          add_trace(data=tmp_test,
+                    x = ~Dim_1,
+                    y = ~Dim_2,
+                    opacity = 0.7,
+                    text =  ~ Text_ID,
+                    key = ~ Text_ID,
+                    color = ~Color,
+                    colors = Ex_colors,
+                    # size = ~Width_border,
+                    symbol= ~Symbol,
+                    type = 'scatter',
+                    mode = 'markers',
+                    fill = ~'',
+                    hovertemplate = paste('<b>%{text}</b>'),
+                    marker =  list(
+                      line=list(color="#ff4d6d",
+                                width=tmp_test$Width_border[1])),
+                    name= tmp_test$Color, showlegend=FALSE,
+                    legendgroup=tmp_test$Color
+          )
+      }
+
+      tmp_test=test[which(test$Selected == "Clones"),]
+
+      if(nrow(tmp_test)>0) {
+        not_in_leg=which(unique(tmp_test$Color) %!in% unique(tmp_test_ns$Color))
+        if(length(not_in_leg)>0) {
+          tmp_tmp_test=tmp_test[which(tmp_test$Color %in% not_in_leg),]
+
           fig <- fig %>%
-            add_trace(data=dfk,
+            add_trace(data=tmp_tmp_test,
                       x = ~x,
                       y = ~y,
                       opacity = 0.9,
                       text =  ~ Text_ID,
                       key = ~ Text_ID,
                       color = ~Color,
-                      colors = Ex_colors,
                       symbol= ~Symbol,
                       # size = ~Width_border,
                       type = 'scatter',
@@ -1329,81 +1587,205 @@ app_server <- function(input, output, session) {
                       hovertemplate = paste('<b>%{text}</b>'),
                       marker = list(
                         line=list(color="black",
-                                  width=dfk$Width_border[1])),
-                      name= Color, showlegend=FALSE, legendgroup=Color
+                                  width=tmp_tmp_test$Width_border[1])),
+                      name= tmp_tmp_test$Color, showlegend=TRUE,
+                      legendgroup=tmp_tmp_test$Color
             )
-
-          dfk <- data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index_no]], y=test$Dim_2[tmp_index[tmp_tmp_index_no]], Text_ID=test$Text_ID[tmp_index[tmp_tmp_index_no]],
-                            Width_border=test$Width_border[tmp_index[tmp_tmp_index_no]], Color=test$Color[tmp_index[tmp_tmp_index_no]],
-                            Symbol=test$Symbol[tmp_index[tmp_tmp_index_no]])
-          fig <- fig %>%
-            add_trace(data=dfk,
-                      x = ~x,
-                      y = ~y,
-                      opacity = 0.9,
-                      text =  ~ Text_ID,
-                      key = ~ Text_ID,
-                      color = ~Color,
-                      colors = Ex_colors,
-                      # size = ~Width_border,
-                      symbol= ~Symbol,
-                      type = 'scatter',
-                      mode = 'markers',
-                      fill = ~'',
-                      hovertemplate = paste('<b>%{text}</b>'),
-                      marker = list(sizemode = 'diameter'),
-                      name= Color, legendgroup=Color
-            )
-
-          dfk <- data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index_counterpart]], y=test$Dim_2[tmp_index[tmp_tmp_index_counterpart]], Text_ID=test$Text_ID[tmp_index[tmp_tmp_index_counterpart]],
-                            Width_border=test$Width_border[tmp_index[tmp_tmp_index_counterpart]], Color=test$Color[tmp_tmp_index_counterpart[tmp_tmp_index_counterpart]],
-                            Symbol=test$Symbol[tmp_index[tmp_tmp_index_counterpart]])
-          fig <- fig %>%
-            add_trace(data=dfk,
-                      x = ~x,
-                      y = ~y,
-                      opacity = 0.9,
-                      text =  ~ Text_ID,
-                      key = ~ Text_ID,
-                      color = ~Color,
-                      colors = Ex_colors,
-                      # size = ~Width_border,
-                      symbol= ~Symbol,
-                      type = 'scatter',
-                      mode = 'markers',
-                      fill = ~'',
-                      hovertemplate = paste('<b>%{text}</b>'),
-                      marker =  list(
-                        line=list(color="#ff4d6d",
-                                  width=dfk$Width_border[1])),
-                      name= Color, showlegend=FALSE, legendgroup=Color
-            )
-        } else {
-          dfk <- data.frame(x = test$Dim_1[tmp_index], y=test$Dim_2[tmp_index], Text_ID=test$Text_ID[tmp_index],
-                            Width_border=test$Width_border[tmp_index], Color=test$Color[tmp_index],
-                            Symbol=test$Symbol[tmp_index])
-          fig <- fig %>%
-            add_trace(data=dfk,
-                      x = ~x,
-                      y = ~y,
-                      opacity = 0.9,
-                      text =  ~ Text_ID,
-                      key = ~ Text_ID,
-                      color = ~Color,
-                      colors = Ex_colors,
-                      # size = ~Width_border,
-                      symbol= ~Symbol,
-                      type = 'scatter',
-                      mode = 'markers',
-                      fill = ~'',
-                      hovertemplate = paste('<b>%{text}</b>'),
-                      marker = list(sizemode = 'diameter'),
-                      name= Color, legendgroup=Color
-            )
-
-
         }
+        tmp_tmp_test=tmp_test[which(tmp_test$Color %!in% not_in_leg),]
+        if(nrow(tmp_tmp_test)>0) {
+          fig <- fig %>%
+            add_trace(data=tmp_tmp_test,
+                      x = ~x,
+                      y = ~y,
+                      opacity = 0.9,
+                      text =  ~ Text_ID,
+                      key = ~ Text_ID,
+                      color = ~Color,
+                      symbol= ~Symbol,
+                      # size = ~Width_border,
+                      type = 'scatter',
+                      mode = 'markers',
+                      fill = ~'',
+                      hovertemplate = paste('<b>%{text}</b>'),
+                      marker = list(
+                        line=list(color="black",
+                                  width=tmp_tmp_test$Width_border[1])),
+                      name= tmp_tmp_test$Color, showlegend=FALSE,
+                      legendgroup=tmp_tmp_test$Color
+            )
+        }
+
       }
+
+      tmp_test=test[which(test$Selected == "User selected"),]
+
+      if(nrow(tmp_test)>0) {
+        not_in_leg=which(unique(tmp_test$Color) %!in% unique(tmp_test_ns$Color))
+        if(length(not_in_leg)>0) {
+          tmp_tmp_test=tmp_test[which(tmp_test$Color %in% not_in_leg),]
+
+          fig <- fig %>%
+            add_trace(data=tmp_tmp_test,
+                      x = ~x,
+                      y = ~y,
+                      opacity = 0.9,
+                      text =  ~ Text_ID,
+                      key = ~ Text_ID,
+                      color = ~Color,
+                      symbol= ~Symbol,
+                      # size = ~Width_border,
+                      type = 'scatter',
+                      mode = 'markers',
+                      fill = ~'',
+                      hovertemplate = paste('<b>%{text}</b>'),
+                      marker = list(
+                        line=list(color="black",
+                                  width=tmp_tmp_test$Width_border[1])),
+                      name= tmp_tmp_test$Color, showlegend=TRUE,
+                      legendgroup=tmp_tmp_test$Color
+            )
+        }
+        tmp_tmp_test=tmp_test[which(tmp_test$Color %!in% not_in_leg),]
+        if(nrow(tmp_tmp_test)>0) {
+          fig <- fig %>%
+            add_trace(data=tmp_tmp_test,
+                      x = ~x,
+                      y = ~y,
+                      opacity = 0.9,
+                      text =  ~ Text_ID,
+                      key = ~ Text_ID,
+                      color = ~Color,
+                      symbol= ~Symbol,
+                      # size = ~Width_border,
+                      type = 'scatter',
+                      mode = 'markers',
+                      fill = ~'',
+                      hovertemplate = paste('<b>%{text}</b>'),
+                      marker = list(
+                        line=list(color="black",
+                                  width=tmp_tmp_test$Width_border[1])),
+                      name= tmp_tmp_test$Color, showlegend=FALSE,
+                      legendgroup=tmp_tmp_test$Color
+            )
+        }
+
+      }
+      # for (Color in unique(test$Color)){
+      #   tmp_index=which(test$Color == Color)
+      #   SELECTED=F
+      #
+      #   if(any("User selected" %in% c(unique(test$Selected[tmp_index])))) {
+      #     tmp_tmp_index=which(test$Selected[tmp_index] == "User selected")
+      #     tmp_tmp_index_counterpart=which(test$Selected[tmp_index] == "Counterpart")
+      #     tmp_tmp_index_no=intersect(which(test$Selected[tmp_index] != "User selected"), which(test$Selected[tmp_index] != "Counterpart"))
+      #
+      #     SELECTED=T
+      #   }
+      #
+      #   # if(any("Clones" %in% c(unique(test$Selected[tmp_index])))) {
+      #   #   tmp_tmp_index=which(test$Selected[tmp_index] == "Clones")
+      #   #   tmp_tmp_index_counterpart=which(test$Selected[tmp_index] == "Counterpart")
+      #   #   tmp_tmp_index_no=intersect(which(test$Selected[tmp_index] != "User selected"), which(test$Selected[tmp_index] != "Counterpart"))
+      #   #
+      #   #   SELECTED=T
+      #   # }
+      #   if(SELECTED) {
+      #     dfk <- data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index]], y=test$Dim_2[tmp_index[tmp_tmp_index]], Text_ID=test$Text_ID[tmp_index[tmp_tmp_index]],
+      #                       Width_border=test$Width_border[tmp_index[tmp_tmp_index]], Color=test$Color[tmp_index[tmp_tmp_index]],
+      #                       Symbol=test$Symbol[tmp_index[tmp_tmp_index]])
+      #     fig <- fig %>%
+      #       add_trace(data=dfk,
+      #                 x = ~x,
+      #                 y = ~y,
+      #                 opacity = 0.9,
+      #                 text =  ~ Text_ID,
+      #                 key = ~ Text_ID,
+      #                 color = ~Color,
+      #                 colors = Ex_colors,
+      #                 symbol= ~Symbol,
+      #                 # size = ~Width_border,
+      #                 type = 'scatter',
+      #                 mode = 'markers',
+      #                 fill = ~'',
+      #                 hovertemplate = paste('<b>%{text}</b>'),
+      #                 marker = list(
+      #                   line=list(color="black",
+      #                             width=dfk$Width_border[1])),
+      #                 name= Color, showlegend=FALSE, legendgroup=Color
+      #       )
+      #
+      #     dfk <- data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index_no]], y=test$Dim_2[tmp_index[tmp_tmp_index_no]], Text_ID=test$Text_ID[tmp_index[tmp_tmp_index_no]],
+      #                       Width_border=test$Width_border[tmp_index[tmp_tmp_index_no]], Color=test$Color[tmp_index[tmp_tmp_index_no]],
+      #                       Symbol=test$Symbol[tmp_index[tmp_tmp_index_no]])
+      #     fig <- fig %>%
+      #       add_trace(data=dfk,
+      #                 x = ~x,
+      #                 y = ~y,
+      #                 opacity = 0.9,
+      #                 text =  ~ Text_ID,
+      #                 key = ~ Text_ID,
+      #                 color = ~Color,
+      #                 colors = Ex_colors,
+      #                 # size = ~Width_border,
+      #                 symbol= ~Symbol,
+      #                 type = 'scatter',
+      #                 mode = 'markers',
+      #                 fill = ~'',
+      #                 hovertemplate = paste('<b>%{text}</b>'),
+      #                 marker = list(sizemode = 'diameter'),
+      #                 name= Color, legendgroup=Color
+      #       )
+      #
+      #     dfk <- data.frame(x = test$Dim_1[tmp_index[tmp_tmp_index_counterpart]], y=test$Dim_2[tmp_index[tmp_tmp_index_counterpart]], Text_ID=test$Text_ID[tmp_index[tmp_tmp_index_counterpart]],
+      #                       Width_border=test$Width_border[tmp_index[tmp_tmp_index_counterpart]], Color=test$Color[tmp_tmp_index_counterpart[tmp_tmp_index_counterpart]],
+      #                       Symbol=test$Symbol[tmp_index[tmp_tmp_index_counterpart]])
+      #     fig <- fig %>%
+      #       add_trace(data=dfk,
+      #                 x = ~x,
+      #                 y = ~y,
+      #                 opacity = 0.9,
+      #                 text =  ~ Text_ID,
+      #                 key = ~ Text_ID,
+      #                 color = ~Color,
+      #                 colors = Ex_colors,
+      #                 # size = ~Width_border,
+      #                 symbol= ~Symbol,
+      #                 type = 'scatter',
+      #                 mode = 'markers',
+      #                 fill = ~'',
+      #                 hovertemplate = paste('<b>%{text}</b>'),
+      #                 marker =  list(
+      #                   line=list(color="#ff4d6d",
+      #                             width=dfk$Width_border[1])),
+      #                 name= Color, showlegend=FALSE, legendgroup=Color
+      #       )
+      #   } else {
+      #     dfk <- data.frame(x = test$Dim_1[tmp_index], y=test$Dim_2[tmp_index], Text_ID=test$Text_ID[tmp_index],
+      #                       Width_border=test$Width_border[tmp_index], Color=test$Color[tmp_index],
+      #                       Symbol=test$Symbol[tmp_index])
+      #     fig <- fig %>%
+      #       add_trace(data=dfk,
+      #                 x = ~x,
+      #                 y = ~y,
+      #                 opacity = 0.9,
+      #                 text =  ~ Text_ID,
+      #                 key = ~ Text_ID,
+      #                 color = ~Color,
+      #                 colors = Ex_colors,
+      #                 # size = ~Width_border,
+      #                 symbol= ~Symbol,
+      #                 type = 'scatter',
+      #                 mode = 'markers',
+      #                 fill = ~'',
+      #                 hovertemplate = paste('<b>%{text}</b>'),
+      #                 marker = list(sizemode = 'diameter'),
+      #                 name= Color, legendgroup=Color
+      #       )
+      #
+      #
+      #   }
+      # }
       fig <- fig %>%
         layout(title = 'Exploration plot', plot_bgcolor = "#e5ecf6",legend = list(orientation = 'v',y=-0),showlegend=T, xaxis = list(title = if(input$Exploration_plot_type == "PCA") {paste('Dim ', dim1,' (', 100*Exploration_values$Variance_explained[dim1], "%)", sep="")} else if(input$Exploration_plot_type == "UMAP") {"Dim  1"} ),
                yaxis = list(title = if(input$Exploration_plot_type == "PCA") {paste('Dim ', dim2,' (', 100*Exploration_values$Variance_explained[dim2], "%)", sep="")} else if(input$Exploration_plot_type == "UMAP") {"Dim  2"},dragmode = "lasso")   )%>%
@@ -1642,13 +2024,13 @@ app_server <- function(input, output, session) {
       tmp_sp=(unlist(Big_mem_values$Short_DF[Selection_values$rows,get(input$plot_color)]))
       print("Testete")
       print(length(tmp_sp))
-      if(input$plot_color %in% c("Best_V", "Best_J")) {
-        tmp_sp=sapply(tmp_sp, function(z) strsplit(z,split="*", fixed=T)[[1]][1])
-      } else if (input$plot_color == "V_and_J") {
-        tmp_sp=sapply(tmp_sp, function(z) paste(strsplit(z,split="*", fixed=T)[[1]][1],
-                                                strsplit(strsplit(z,split="_", fixed=T)[[1]][2], split="*", fixed=T)[[1]][1],
-                                                sep=" & "))
-      }
+      # if(input$plot_color %in% c("Best_V", "Best_J")) {
+      #   tmp_sp=sapply(tmp_sp, function(z) strsplit(z,split="*", fixed=T)[[1]][1])
+      # } else if (input$plot_color == "V_and_J") {
+      #   tmp_sp=sapply(tmp_sp, function(z) paste(strsplit(z,split="*", fixed=T)[[1]][1],
+      #                                           strsplit(strsplit(z,split="_", fixed=T)[[1]][2], split="*", fixed=T)[[1]][1],
+      #                                           sep=" & "))
+      # }
       print("Mmmmmmmmmmmmmmmmmmmmmmmmmmeow")
       tmp_sp[which(is.na(tmp_sp))]="Not specified"
       tmp_sp[which((tmp_sp)=="  ")]="Not specified"
@@ -1762,9 +2144,38 @@ app_server <- function(input, output, session) {
 
 
   observeEvent(input$Update_selection,{
-    tmp_rows_cols=filter_merged(Big_mem_values$Big_DF,  Big_mem_values$Short_DF, Big_mem_values$Header,"Reconstructed germline" %in%  input$use_what, "Repertoire" %in%  input$use_what, "Productive" %in% input$use_productive_or_not,"Non-productive" %in% input$use_productive_or_not,
-                                input$my_regions, input$my_var_elements, input$my_vars, input$my_vartypes, input$use_sharedVDJ, input$VJ_included, input$groups_selected, input$group_A, input$group_B, input$group_C,input$use_univlog,input$samples_selected, input$exclude_variables,input$pval_type, input$pval_cutoff, input$estimate_cutoff, input$number_selected_vars,
-                                input$VJ_deselected, input$VDJ_normalized_per_size, input$Rmut_filter[1], input$Rmut_filter[2], input$work_as_categories, input$VDJ_maximize_clones, input$VDJ_normalized_per_sample, input$my_clone_def)
+    tmp_rows_cols=filter_merged(Big_mem_values$Big_DF,
+                                Big_mem_values$Short_DF,
+                                Big_mem_values$Header,
+                                "Reconstructed germline" %in%  input$use_what,
+                                "Repertoire" %in%  input$use_what,
+                                "Productive" %in% input$use_productive_or_not,
+                                "Non-productive" %in% input$use_productive_or_not,
+                                input$my_regions,
+                                input$my_var_elements,
+                                input$my_vars,
+                                input$my_vartypes,
+                                input$use_sharedVDJ,
+                                input$VJ_included,
+                                input$groups_selected,
+                                input$group_A,
+                                input$group_B,
+                                input$group_C,
+                                input$use_univlog,
+                                input$samples_selected,
+                                input$exclude_variables,
+                                input$pval_type,
+                                input$pval_cutoff,
+                                input$estimate_cutoff,
+                                input$number_selected_vars,
+                                input$VJ_deselected,
+                                input$VDJ_normalized_per_size,
+                                input$Rmut_filter[1],
+                                input$Rmut_filter[2],
+                                input$work_as_categories,
+                                input$VDJ_maximize_clones,
+                                input$VDJ_normalized_per_sample,
+                                input$my_clone_def)
     Selection_values$rows=tmp_rows_cols$ROWS
     Selection_values$columns=tmp_rows_cols$COLUMNS
     Selection_values$Parameters = list(input$use_UMAP)

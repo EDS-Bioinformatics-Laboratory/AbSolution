@@ -24,7 +24,6 @@ Ab_palette=function(list_values, vect_genes_comb=NA, type_values=c("V","D","J","
 
   palette_colors=c()
   set.seed(123)
-
   if(colorblind){
     if (type_values=="cuantitative") {
       palette_colors=viridis(max(list_values)-min(list_values))
