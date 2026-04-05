@@ -1,5 +1,6 @@
 Package: AbSolution
-Title: An Interactive Application for Feature-Based Analysis of AIRR-Seq Data Enabling Automation and Computational Reproducibility
+Title: An Interactive Application for Feature-Based Analysis of AIRR-Seq
+    Data Enabling Automation and Computational Reproducibility
 Version: 1.0.0
 Authors@R: c(
     person("Rodrigo", "García-Valiente", , "r.garciavaliente@amsterdamumc.nl", role = c("cre", "aut"),
@@ -9,15 +10,16 @@ Authors@R: c(
     person("Antoine", "van Kampen", , "a.h.c.vankampen@amsterdamumc.nl", role = c("aut", "ths"),
            comment = c(ORCID = "0000-0003-1025-7232"))
   )
-Description: An interactive framework for the exploration and analysis 
-    of adaptive immune receptor repertoire sequencing (AIRR-seq) data. It enables 
-    large-scale computation and integrated analysis of sequence-derived features, 
-    including physicochemical properties, amino acid descriptor sets, sequence motifs, 
-    compositional patterns, and somatic hypermutation metrics. The application supports 
-    multiscale analysis across sequences, clones, and repertoires, with interactive 
-    visualizations and statistical feature selection. AbSolution also facilitates 
-    reproducible research by enabling structured export of data, code, parameters, 
-    and computational environments.
+Description: An interactive framework for the exploration and analysis of
+    adaptive immune receptor repertoire sequencing (AIRR-seq) data. It
+    enables large-scale computation and integrated analysis of
+    sequence-derived features, including physicochemical properties, amino
+    acid descriptor sets, sequence motifs, compositional patterns, and
+    somatic hypermutation metrics. The application supports multiscale
+    analysis across sequences, clones, and repertoires, with interactive
+    visualizations and statistical feature selection. AbSolution also
+    facilitates reproducible research by enabling structured export of
+    data, code, parameters, and computational environments.
 License: GPL (>= 3)
 URL: https://github.com/EDS-Bioinformatics-Laboratory/AbSolution
 BugReports: 
@@ -72,6 +74,7 @@ Imports:
     stats,
     stringdist,
     stringr,
+    sunburstR,
     tools,
     umap,
     upsetjs,

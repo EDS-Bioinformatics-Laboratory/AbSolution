@@ -9,7 +9,6 @@
 #' @import bigstatsr
 #' @import shinymanager
 #' @import sortable
-#' @import sunburstR
 #' @import tools
 #' @import shinymeta
 #' @noRd
@@ -4399,7 +4398,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the selection set"),
                   collapse = " "
@@ -4434,7 +4433,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the selection set"),
                   collapse = " "
@@ -4466,7 +4465,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the selection set"),
                   collapse = " "
@@ -4498,7 +4497,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the selection set"),
                   collapse = " "
@@ -4530,7 +4529,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the selection set"),
                   collapse = " "
@@ -4562,7 +4561,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the selection set"),
                   collapse = " "
@@ -4594,7 +4593,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the selection set"),
                   collapse = " "
@@ -4626,7 +4625,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the selection set"),
                   collapse = " "
@@ -4662,7 +4661,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the exploration set"),
                   collapse = " "
@@ -4698,7 +4697,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the exploration set"),
                   collapse = " "
@@ -4731,7 +4730,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the exploration set"),
                   collapse = " "
@@ -4764,7 +4763,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the exploration set"),
                   collapse = " "
@@ -4797,7 +4796,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the exploration set"),
                   collapse = " "
@@ -4830,7 +4829,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the exploration set"),
                   collapse = " "
@@ -4863,7 +4862,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the exploration set"),
                   collapse = " "
@@ -4896,7 +4895,7 @@ app_server <- function(input, output, session) {
                 )
               )
             } else {
-              sund2b(
+              sunburstR::sund2b(
                 sunburst_df, showLabels = F, rootLabel = paste(
                   c(region, "sequence variables analyzed in the exploration set"),
                   collapse = " "
