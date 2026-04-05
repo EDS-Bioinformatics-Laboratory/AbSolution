@@ -1,0 +1,37 @@
+url: https://eds-bioinformatics-laboratory.github.io/AbSolution/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#00979f"
+
+navbar:
+  structure:
+    left:  [intro, reference, articles]
+    right: [search, github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/EDS-Bioinformatics-Laboratory/AbSolution
+      aria-label: GitHub repository
+
+home:
+  title: "AbSolution — B/T-cell Repertoire Analysis"
+  sidebar:
+    structure: [links, license, authors, citation]
+
+authors:
+  Rodrigo García-Valiente:
+    href: https://orcid.org/0000-0003-0444-5587
+  Charisios Triantafyllou:
+    href: https://orcid.org/0000-0002-0283-141X
+  Antoine van Kampen:
+    href: https://orcid.org/0000-0003-1025-7232
+
+reference:
+  - title: "Launch the app"
+    desc: "Start the AbSolution Shiny application"
+    contents:
+      - run_app
+

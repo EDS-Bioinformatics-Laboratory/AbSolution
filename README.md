@@ -4,7 +4,7 @@
 <!-- badges: end -->
 
 <p align="center">
-  <img src="inst/app/www/AbSolution_logo.png" alt="AbSolution logo" width="300"/>
+  <img src="man/figures/AbSolution_logo.png" alt="AbSolution logo" width="300"/>
 </p>
 
 # AbSolution <a id="top"></a>
@@ -49,9 +49,11 @@ remotes::install_github("EDS-Bioinformatics-Laboratory/AbSolution")
 install.packages("AbSolution_1.0.0.tar.gz", repos = NULL, type = "source")
 ```
 
-### Docker
+### From a shared exported proyect
 
-A Docker setup is available in the [`deploy/`](deploy/) directory:
+#### Docker image
+
+A Docker setup is available in the [`0_SoftwareEnvironment/R/`](deploy/) directory:
 
 ```bash
 cd deploy
@@ -61,7 +63,21 @@ docker run -p 3838:3838 absolution:latest
 # Open http://127.0.0.1:3838
 ```
 
+#### renv file
+
+A renv.lock file is available in the [`0_SoftwareEnvironment/R/`](deploy/) directory:
+
+```R
+renv::restore(lockfile = "0_SoftwareEnvironment/R/renv.lock")
+```
+
+#### Install AbSolution exported source file
+
+```r
+install.packages("0_SoftwareEnvironment/R/AbSolution_1.0.0.tar.gz", repos = NULL, type = "source")
+```
 ---
+
 
 ## Quick start
 
@@ -83,17 +99,18 @@ vignette("AbSolution")
 ## Workflow overview
 
 <p align="center">
-  <img src="inst/app/www/img/AbSolution_scheme.png" alt="AbSolution workflow" width="700"/>
+  <img src="man/figures/AbSolution_scheme.png" alt="AbSolution workflow" width="700"/>
 </p>
 
 AbSolution guides you through a step-by-step analysis:
 
 1. **Project information** — define your samples, groups, and metadata
 2. **AIRR-Seq conversion** — parse sequences and reconstruct germlines
-3. **Dataset exploration** — filter variables, compare groups, explore PCA/UMAP projections
-4. **Feature exploration** — examine individual sequence features across groups
-5. **Clonal exploration** — analyze clonotype distributions, shared clones, and dominance
-6. **Export** — generate reproducible reports in ENCORE format
+3. **Feature calculation** — calculate sequence-based features for each sequence
+4. **Dataset exploration** — filter variables, compare groups, explore PCA/UMAP projections
+5. **Feature exploration** — examine individual sequence features across groups
+6. **Clonal exploration** — analyze clonotype distributions, shared clones, and dominance
+7. **Export** — generate reproducible reports in ENCORE format
 
 ---
 
@@ -128,7 +145,7 @@ AbSolution is released under the [GPL-3](LICENSE.md) license.
 Developed at the [Bioinformatics Laboratory](https://bioinformaticslaboratory.eu/), Department of Epidemiology and Data Science, Amsterdam UMC, University of Amsterdam, the Netherlands.
 
 <p align="center">
-  <img src="inst/app/www/img/BioinformaticsLaboratory.png" alt="Bioinformatics Laboratory" height="60"/>
+  <img src="man/figures/BioinformaticsLaboratory.png" alt="Bioinformatics Laboratory" height="60"/>
   &nbsp;&nbsp;&nbsp;
-  <img src="inst/app/www/img/UMC_logo.png" alt="Amsterdam UMC" height="60"/>
+  <img src="man/figures/UMC_logo.png" alt="Amsterdam UMC" height="60"/>
 </p>

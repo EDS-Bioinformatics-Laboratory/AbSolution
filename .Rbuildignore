@@ -17,3 +17,6 @@ $run_dev.*
 ^Meta$
 ^0_README.md$
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
