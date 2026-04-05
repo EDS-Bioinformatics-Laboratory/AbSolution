@@ -1071,7 +1071,7 @@ app_ui <- function(request) {
                       ),
                       tags$iframe(
                         style="height:900px; width:100%;",
-                        src="www/doc/AbSolution.pdf"
+                        src="www/doc/AbSolution_guide.pdf"
                       )
                     )
                   )
