@@ -2,22 +2,12 @@
 title: "AbSolution"
 author: "Rodrigo García-Valiente"
 output:
-  pdf_document:
-    toc: true
-    toc_depth: 4
-    highlight: tango
-    number_sections: true
-    fig_caption: true
-    includes:
-      in_header: preamble.tex
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 4
     highlight: tango
     number_sections: true
     fig_caption: true
-    includes:
-      in_header: preamble.tex
 vignette: >
   %\VignetteIndexEntry{AbSolution}
   %\VignetteEngine{knitr::rmarkdown}
