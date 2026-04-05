@@ -17,7 +17,7 @@ Description: An interactive framework for the exploration and analysis of
     acid descriptor sets, sequence motifs, compositional patterns, and
     somatic hypermutation metrics. The application supports multiscale
     analysis across sequences, clones, and repertoires, with interactive
-    visualizations and statistical feature selection. AbSolution also
+    visualizations and statistical feature selection. 'AbSolution' also
     facilitates reproducible research by enabling structured export of
     data, code, parameters, and computational environments.
 License: GPL (>= 3)

@@ -9,6 +9,7 @@
 *.Rcheck/
 inst/doc
 /doc/
+/dev/
 /Meta/
 .here
 
