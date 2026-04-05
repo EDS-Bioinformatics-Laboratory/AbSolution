@@ -125,7 +125,7 @@ AbSolution is released under the [GPL-3](LICENSE.md) license.
 
 ## Acknowledgments
 
-Developed at the [Bioinformatics Laboratory](https://www.bioinformaticslaboratory.eu/), Department of Epidemiology and Data Science, Amsterdam UMC, University of Amsterdam, the Netherlands.
+Developed at the [Bioinformatics Laboratory](https://bioinformaticslaboratory.eu/), Department of Epidemiology and Data Science, Amsterdam UMC, University of Amsterdam, the Netherlands.
 
 <p align="center">
   <img src="inst/app/www/img/BioinformaticsLaboratory.png" alt="Bioinformatics Laboratory" height="60"/>
