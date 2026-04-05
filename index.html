@@ -106,7 +106,7 @@
 <div class="section level4">
 <h4 id="docker-image">Docker image<a class="anchor" aria-label="anchor" href="#docker-image"></a>
 </h4>
-<p>A Docker setup is available in the <a href="deploy/"><code>0_SoftwareEnvironment/R/</code></a> directory:</p>
+<p>A Docker setup is available in the <code>0_SoftwareEnvironment/R/</code> directory of the exported project:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="bu">cd</span> deploy</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-f</span> Dockerfile_base <span class="at">--progress</span><span class="op">=</span>plain <span class="at">-t</span> absolution_base .</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="ex">docker</span> build <span class="at">-f</span> Dockerfile <span class="at">--progress</span><span class="op">=</span>plain <span class="at">-t</span> absolution:latest .</span>
@@ -116,7 +116,7 @@
 <div class="section level4">
 <h4 id="renv-file">renv file<a class="anchor" aria-label="anchor" href="#renv-file"></a>
 </h4>
-<p>A renv.lock file is available in the <a href="deploy/"><code>0_SoftwareEnvironment/R/</code></a> directory:</p>
+<p>A renv.lock file is available in the <code>0_SoftwareEnvironment/R/</code> directory of the exported project:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">renv</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/renv/reference/restore.html" class="external-link">restore</a></span><span class="op">(</span>lockfile <span class="op">=</span> <span class="st">"0_SoftwareEnvironment/R/renv.lock"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -189,7 +189,7 @@
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
-<p>AbSolution is released under the <a href="LICENSE.html">GPL-3</a> license.</p>
+<p>AbSolution is released under the <a href="https://github.com/EDS-Bioinformatics-Laboratory/AbSolution/blob/main/LICENSE.md" class="external-link">GPL-3</a> license.</p>
 <hr>
 </div>
 <div class="section level2">

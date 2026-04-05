@@ -60,9 +60,8 @@ install.packages("AbSolution_1.0.0.tar.gz", repos = NULL, type = "source")
 
 #### Docker image
 
-A Docker setup is available in the
-[`0_SoftwareEnvironment/R/`](https://eds-bioinformatics-laboratory.github.io/AbSolution/deploy/)
-directory:
+A Docker setup is available in the `0_SoftwareEnvironment/R/` directory
+of the exported project:
 
 ``` bash
 cd deploy
@@ -74,9 +73,8 @@ docker run -p 3838:3838 absolution:latest
 
 #### renv file
 
-A renv.lock file is available in the
-[`0_SoftwareEnvironment/R/`](https://eds-bioinformatics-laboratory.github.io/AbSolution/deploy/)
-directory:
+A renv.lock file is available in the `0_SoftwareEnvironment/R/`
+directory of the exported project:
 
 ``` r
 renv::restore(lockfile = "0_SoftwareEnvironment/R/renv.lock")
@@ -159,7 +157,7 @@ to report bugs or suggest features, or submit a pull request.
 ## License
 
 AbSolution is released under the
-[GPL-3](https://eds-bioinformatics-laboratory.github.io/AbSolution/LICENSE.md)
+[GPL-3](https://github.com/EDS-Bioinformatics-Laboratory/AbSolution/blob/main/LICENSE.md)
 license.
 
 ------------------------------------------------------------------------
