@@ -1,4 +1,17 @@
+# R artifacts
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
+# Package build artifacts
+*.tar.gz
+*.Rcheck/
+inst/doc
+/doc/
+/Meta/
+.here
+
+# OS files
+.DS_Store
+Thumbs.db

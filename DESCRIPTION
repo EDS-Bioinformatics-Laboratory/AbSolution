@@ -1,0 +1,86 @@
+Package: AbSolution
+Title: B-Cell and T-Cell Variable Region Sequence Feature Analysis
+Version: 1.0.0
+Authors@R: c(
+    person("Rodrigo", "García-Valiente", , "r.garciavaliente@amsterdamumc.nl", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0003-0444-5587")),
+    person("Charisios", "Triantafyllou", , "charisios.triantafyllou@genyo.es", role = "aut",
+           comment = c(ORCID = "0000-0002-0283-141X")),
+    person("Antoine", "van Kampen", , "a.h.c.vankampen@amsterdamumc.nl", role = c("aut", "ths"),
+           comment = c(ORCID = "0000-0003-1025-7232"))
+  )
+Description: An interactive and scalable Shiny application for analyzing
+    sequence features of B-cell and T-cell receptor repertoires. Supports
+    identification and visualization of variable region characteristics,
+    clonotypes, and mutation patterns from immunoglobulin and TCR sequence
+    data.
+License: GPL (>= 3)
+URL: https://github.com/EDS-Bioinformatics-Laboratory/AbSolution
+BugReports: 
+    https://github.com/EDS-Bioinformatics-Laboratory/AbSolution/issues
+Depends:
+    R (>= 4.4.0)
+Imports: 
+    alakazam,
+    attachment,
+    benchmarkme,
+    bigassertr,
+    bigparallelr,
+    bigstatsr,
+    Biostrings,
+    bs4Dash,
+    callr,
+    colourpicker,
+    config (>= 0.3.2),
+    dashboardthemes,
+    data.table,
+    dockerfiler,
+    doParallel,
+    dplyr,
+    DT,
+    foreach,
+    fresh,
+    fs,
+    ggplot2,
+    golem (>= 0.4.1),
+    grDevices,
+    htmlwidgets,
+    IRanges,
+    iterors,
+    knitr,
+    parallel,
+    Peptides,
+    plotly,
+    pwalign,
+    reactable,
+    rlang,
+    rmarkdown,
+    seqinr,
+    shiny (>= 1.7.4),
+    shinycssloaders,
+    shinyFiles,
+    shinyjs,
+    shinymanager,
+    shinymeta,
+    shinythemes,
+    shinyWidgets,
+    sortable,
+    stats,
+    stringdist,
+    stringr,
+    sunburstR,
+    tools,
+    umap,
+    upsetjs,
+    utils,
+    viridis,
+    xfun
+Suggests: 
+    testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+RoxygenNote: 7.3.3
