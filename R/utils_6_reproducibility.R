@@ -9,7 +9,7 @@
 #' @import shinymeta
 #' @noRd
 buildRmdBundle_alt<-function (report_template, output_zip_path, vars = list(), include_files = list(),
-                              render = TRUE, render_args = list(), golem_renv=F)
+                              render = TRUE, render_args = list(), golem_renv=FALSE)
 {
   force(report_template)
   force(vars)
@@ -51,7 +51,7 @@ buildRmdBundle_alt<-function (report_template, output_zip_path, vars = list(), i
 #' @import golem
 #' @noRd
 build_bundle_alt <-function (input_src, input_filename, output_zip_path, include_files = list(),
-                             render = TRUE, render_args = list(), progress, golem_renv=F)
+                             render = TRUE, render_args = list(), progress, golem_renv=FALSE)
 {
   force(input_src)
   force(input_filename)

@@ -10,6 +10,14 @@ Feature_1(path_base, grouping_by)
 The return value, if any, from executing the function.
 }
 \description{
-A fct function
+**Internal function.** Not intended for direct use. Exported only for
+   `shinymeta` report rendering via `::` access. Use [run_app()] instead.
+}
+\examples{
+\donttest{
+  # Internal function exported for shinymeta :: access during report rendering.
+  # Requires a live Shiny reactive context and real AIRR-seq data.
+  # Use run_app() as the user-facing entry point.
+}
 }
 \keyword{internal}

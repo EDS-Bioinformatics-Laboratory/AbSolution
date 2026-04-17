@@ -8,7 +8,7 @@ Ab_palette(
   list_values,
   vect_genes_comb = NA,
   type_values = c("V", "D", "J", "VJ", "VDJ", "cuantitative", "cualitative"),
-  colorblind = F,
+  colorblind = FALSE,
   seed = 1234
 )
 }
@@ -32,8 +32,18 @@ lost.}
 palette_colors: a (named) vector of colors
 }
 \description{
-Returns a vector of colors according to the input.
+#' @description
+   **Internal function.** Not intended for direct use. Exported only for
+   `shinymeta` report rendering via `::` access. Use [run_app()] instead.
+   Returns a vector of colors according to the input.
    For V/D/J/VJ/VDJ inputs, the colors are produced in a way that genes and
    combination of genes from the same family are assigned a similar color.
+}
+\examples{
+\donttest{
+  # Internal function exported for shinymeta :: access during report rendering.
+  # Requires a live Shiny reactive context and real AIRR-seq data.
+  # Use run_app() as the user-facing entry point.
+}
 }
 \keyword{internal}

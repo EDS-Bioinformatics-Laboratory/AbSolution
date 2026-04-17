@@ -30,7 +30,7 @@
 #' }
 run_app <- function(verbose = FALSE, onStart = NULL, options = list(),
                     enableBookmarking = "server", uiPattern = "/", ...) {
-  set.seed(1234)
+  # set.seed(1234)
 
   with_golem_options(
     app = shinyApp(

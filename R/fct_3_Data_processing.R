@@ -1,6 +1,8 @@
 #' Merge FBMs and meta files
 #'
-#' @description A function to join by row individual FBMs and .info files
+#' @description **Internal function.** Not intended for direct use. Exported only for
+#'    `shinymeta` report rendering via `::` access. Use [run_app()] instead.
+#'    A function to join by row individual FBMs and .info files
 #'     into a unique FBM and a unique .info file, merged_bm.
 #' @param filepath Path to the individual FBMs.
 #' @return A list with the merged FBM, the merged info file and the FBM header.
@@ -10,6 +12,12 @@
 #' @import bigparallelr
 #' @keywords internal
 #' @export
+#' @examples
+#' \donttest{
+#'   # Internal function exported for shinymeta :: access during report rendering.
+#'   # Requires a live Shiny reactive context and real AIRR-seq data.
+#'   # Use run_app() as the user-facing entry point.
+#' }
 merge_FBMs <- function(filepath) {
     basenames <- basename(list.files(path = filepath, pattern = glob2rx("*.rds")))
     prefixes <- tools::file_path_sans_ext(basenames)
@@ -106,7 +114,7 @@ merge_FBMs <- function(filepath) {
 
         merged_bm <- bigstatsr::FBM(
             n, m, backingfile = file.path(filepath, "Merged_bm"),
-            is_read_only = F
+            is_read_only = FALSE
         )
         data.table::fwrite(
             merged_df, file.path(filepath, paste0("Merged_bm", ".info")),
@@ -181,17 +189,23 @@ merge_FBMs <- function(filepath) {
 
 #' 3_Data_processing
 #'
-#' @description A fct function
-#'
+#' @description **Internal function.** Not intended for direct use. Exported only for
+#'    `shinymeta` report rendering via `::` access. Use [run_app()] instead.
 #' @return The return value, if any, from executing the function.
 #' @import bigstatsr
 #' @import bigparallelr
 #' @keywords internal
 #' @export
+#' @examples
+#' \donttest{
+#'   # Internal function exported for shinymeta :: access during report rendering.
+#'   # Requires a live Shiny reactive context and real AIRR-seq data.
+#'   # Use run_app() as the user-facing entry point.
+#' }
 filter_merged <- function(
     FBM, merged_df, merged_header, use_rgermline, use_repertoire, use_productive,
     use_nonproductive, my_regions, my_var_elements, my_vars, my_vartypes, use_sharedVDJ,
-    V_J_to_use, groups, group_A, group_B, group_C, univlog = F, samples_to_keep,
+    V_J_to_use, groups, group_A, group_B, group_C, univlog = FALSE, samples_to_keep,
     variables_to_remove, pval_type, pval_cutoff, estimate_cutoff, number_selected_vars,
     VJ_deselected, VDJ_normalized_per_size, R_mut_threshold_min, R_mut_threshold_max,
     to_compare_groups, VDJ_maximize_clones, VDJ_normalized_per_sample, my_clone_def,
@@ -1174,7 +1188,9 @@ filter_merged <- function(
 
 #' Big PCA
 #'
-#' @description A function to perform PCA over a FBM object.
+#' @description **Internal function.** Not intended for direct use. Exported only for
+#'    `shinymeta` report rendering via `::` access. Use [run_app()] instead.
+#'    A function to perform PCA over a FBM object.
 #' @param FBM A FBM object.
 #' @param rows Index of rows of the FBM that will be used to calculate the PCA.
 #' @param columns Index of columns of the FBM that will be used to calculate the PCA..
@@ -1182,6 +1198,12 @@ filter_merged <- function(
 #' @import bigstatsr
 #' @keywords internal
 #' @export
+#' @examples
+#' \donttest{
+#'   # Internal function exported for shinymeta :: access during report rendering.
+#'   # Requires a live Shiny reactive context and real AIRR-seq data.
+#'   # Use run_app() as the user-facing entry point.
+#' }
 big_PCA <- function(FBM, rows, columns) {
 
     if (length(columns) >
@@ -1193,7 +1215,7 @@ big_PCA <- function(FBM, rows, columns) {
 
               testing <- bigstatsr::big_randomSVD(
                 FBM, fun.scaling = big_scale(), ind.row = rows, ind.col = columns, k = 5,
-                verbose = F
+                verbose = FALSE
               )
 
               scores <- stats::predict(testing)

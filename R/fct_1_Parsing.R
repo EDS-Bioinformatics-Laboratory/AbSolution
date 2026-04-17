@@ -1,15 +1,22 @@
 #' 1_Parsing
 #'
-#' @description A fct function
+#' @description **Internal function.** Not intended for direct use. Exported only for
+#'    `shinymeta` report rendering via `::` access. Use [run_app()] instead.
 #'
 #' @return The return value, if any, from executing the function.
 #' @import stringr
 #'
 #' @keywords internal
 #' @export
+#' @examples
+#' \donttest{
+#'   # Internal function exported for shinymeta :: access during report rendering.
+#'   # Requires a live Shiny reactive context and real AIRR-seq data.
+#'   # Use run_app() as the user-facing entry point.
+#' }
 parse_AIRRSeq_file <- function(
     file, group, patient, subgroup, sample, input_path, C_region_included, FWR1partial,
-    FWR4partial, D_gene, repertoire, output_path, is_example=F
+    FWR4partial, D_gene, repertoire, output_path, is_example=FALSE
 ) {
 
 
@@ -20,7 +27,7 @@ parse_AIRRSeq_file <- function(
             input_path, paste(file, ".tsv", sep = ""),
             sep = ""
         ), nrows=if(is_example){20} else {-1},
-        sep = "\t", header = TRUE, fill = T
+        sep = "\t", header = TRUE, fill = TRUE
     )
 
     AIRR_input[is.na(AIRR_input)] = ""
@@ -52,15 +59,15 @@ parse_AIRRSeq_file <- function(
     AIRR_input <- AIRR_input[which(AIRR_input$fwr4 != ""),
     ]
     ##some programmes use - for deletions, others dont, so we standarize this way
-    AIRR_input$sequence_alignment=sapply(AIRR_input$sequence_alignment, function(x) gsub("-",".", x, fixed=T))
-    AIRR_input$germline_alignment=sapply(AIRR_input$germline_alignment, function(x) gsub("-",".", x, fixed=T))
-    AIRR_input$fwr1=sapply(AIRR_input$fwr1, function(x) gsub("-",".", x, fixed=T))
-    AIRR_input$fwr2=sapply(AIRR_input$fwr2, function(x) gsub("-",".", x, fixed=T))
-    AIRR_input$fwr3=sapply(AIRR_input$fwr3, function(x) gsub("-",".", x, fixed=T))
-    AIRR_input$fwr4=sapply(AIRR_input$fwr4, function(x) gsub("-",".", x, fixed=T))
-    AIRR_input$cdr1=sapply(AIRR_input$cdr1, function(x) gsub("-",".", x, fixed=T))
-    AIRR_input$cdr2=sapply(AIRR_input$cdr2, function(x) gsub("-",".", x, fixed=T))
-    AIRR_input$cdr3=sapply(AIRR_input$cdr3, function(x) gsub("-",".", x, fixed=T))
+    AIRR_input$sequence_alignment=sapply(AIRR_input$sequence_alignment, function(x) gsub("-",".", x, fixed=TRUE))
+    AIRR_input$germline_alignment=sapply(AIRR_input$germline_alignment, function(x) gsub("-",".", x, fixed=TRUE))
+    AIRR_input$fwr1=sapply(AIRR_input$fwr1, function(x) gsub("-",".", x, fixed=TRUE))
+    AIRR_input$fwr2=sapply(AIRR_input$fwr2, function(x) gsub("-",".", x, fixed=TRUE))
+    AIRR_input$fwr3=sapply(AIRR_input$fwr3, function(x) gsub("-",".", x, fixed=TRUE))
+    AIRR_input$fwr4=sapply(AIRR_input$fwr4, function(x) gsub("-",".", x, fixed=TRUE))
+    AIRR_input$cdr1=sapply(AIRR_input$cdr1, function(x) gsub("-",".", x, fixed=TRUE))
+    AIRR_input$cdr2=sapply(AIRR_input$cdr2, function(x) gsub("-",".", x, fixed=TRUE))
+    AIRR_input$cdr3=sapply(AIRR_input$cdr3, function(x) gsub("-",".", x, fixed=TRUE))
 
     regions <- c("NT_FWR1", "NT_CDR1", "NT_FWR2", "NT_CDR2", "NT_FWR3", "NT_CDR3", "NT_FWR4")
 
@@ -70,7 +77,7 @@ parse_AIRRSeq_file <- function(
         Sequence_type = "Repertoire", Subgroup = subgroup, V_region = AIRR_input$v_call,
         J_region = AIRR_input$j_call, NT_FWR1 = AIRR_input$fwr1, NT_CDR1 = AIRR_input$cdr1,
         NT_FWR2 = AIRR_input$fwr2, NT_CDR2 = AIRR_input$cdr2, NT_FWR3 = AIRR_input$fwr3,
-        NT_CDR3 = AIRR_input$cdr3, NT_FWR4 = AIRR_input$fwr4, stringsAsFactors = F
+        NT_CDR3 = AIRR_input$cdr3, NT_FWR4 = AIRR_input$fwr4, stringsAsFactors = FALSE
     )
 
 
@@ -127,16 +134,16 @@ parse_AIRRSeq_file <- function(
 
     ### even if the format says aligned, not all programmes (e.g. IMGT,
     ### 02/2024) have these fields aligned. Let's add a checkup
-    if (any(grepl(".", IMGT_parsed_index$NT_FWR1, fixed = T)) ||
-        any(grepl(".", IMGT_parsed_index$NT_FWR2, fixed = T)) ||
-        any(grepl(".", IMGT_parsed_index$NT_FWR3, fixed = T)) ||
-        any(grepl(".", IMGT_parsed_index$NT_FWR4, fixed = T)) ||
-        any(grepl(".", IMGT_parsed_index$NT_CDR1, fixed = T)) ||
-        any(grepl(".", IMGT_parsed_index$NT_CDR2, fixed = T)) ||
-        any(grepl(".", IMGT_parsed_index$NT_CDR3, fixed = T))) {
-      aligned_regions <- T
+    if (any(grepl(".", IMGT_parsed_index$NT_FWR1, fixed = TRUE)) ||
+        any(grepl(".", IMGT_parsed_index$NT_FWR2, fixed = TRUE)) ||
+        any(grepl(".", IMGT_parsed_index$NT_FWR3, fixed = TRUE)) ||
+        any(grepl(".", IMGT_parsed_index$NT_FWR4, fixed = TRUE)) ||
+        any(grepl(".", IMGT_parsed_index$NT_CDR1, fixed = TRUE)) ||
+        any(grepl(".", IMGT_parsed_index$NT_CDR2, fixed = TRUE)) ||
+        any(grepl(".", IMGT_parsed_index$NT_CDR3, fixed = TRUE))) {
+      aligned_regions <- TRUE
     } else {
-      aligned_regions <- F
+      aligned_regions <- FALSE
     }
 
     ########## R: insertions are not included here lalalala

@@ -3014,7 +3014,7 @@ app_server <- function(input, output, session) {
         file <- read.csv(input$categorical_covariable_file$datapath)
         validate(need(any("Sequence_ID" %in% colnames(file)), "Please include a Sequence_ID colname"))
         Big_mem_values$categorical_newfields=c(Big_mem_values$categorical_newfields, colnames(file)[which(colnames(file)!= "Sequence_ID")] )
-        Big_mem_values$Short_DF= merge(Big_mem_values$Short_DF, file, by.x = "ID",by.y = "Sequence_ID", all.x= T, sort=F)
+        Big_mem_values$Short_DF= merge(Big_mem_values$Short_DF, file, by.x = "ID",by.y = "Sequence_ID", all.x= TRUE, sort=FALSE)
         Big_mem_values$categorical_missing_ids=file$Sequence_ID[which(!(file$Sequence_ID %in% Big_mem_values$Short_DF$ID))]
         Big_mem_values$Short_DF[is.na(Big_mem_values$Short_DF)] ="Not_specified"
       })

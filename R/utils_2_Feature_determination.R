@@ -103,7 +103,7 @@ Peptides_aaCheck <- function (seq)
 #' @return The return value, if any, from executing the utility.
 #' @import stringr
 #' @noRd
-subseq_func <- function(NT_seq, size_NT_regions, FWR1partial = F, FWR4partial = F, ORF_begins) {
+subseq_func <- function(NT_seq, size_NT_regions, FWR1partial = FALSE, FWR4partial = FALSE, ORF_begins) {
     ########### TOCAR
     AA_info <- translate_fun(toupper(NT_seq), ORF_begins)
     AA_seq <- AA_info[[1]]
@@ -192,9 +192,9 @@ subseq_func <- function(NT_seq, size_NT_regions, FWR1partial = F, FWR4partial = 
 
 
         if(paste(unlist(seq_list), collapse="") != AA_seq){
-          strange=T
+          strange=TRUE
         } else {
-          strange=F
+          strange=FALSE
         }
         seq_list[length(seq_list) +
             1] <- AA_seq
@@ -352,20 +352,20 @@ nt_changes <- function(seq_repertoire, seq_rec.germline, region) {
 show_selected_features <- function(tmp_sunburst = tmp_sunburst, region = region) {
 
     # for (region in regions) {
-    index_regions <- which(grepl(region, tmp_sunburst, fixed = T))
+    index_regions <- which(grepl(region, tmp_sunburst, fixed = TRUE))
     tmp_sunburst <- tmp_sunburst[index_regions]
     tmp_sunburst <- gsub(
         paste(region, "_", sep = ""),
-        "", tmp_sunburst, fixed = T
+        "", tmp_sunburst, fixed = TRUE
     )
 
     # tmp_sunburst[index_regions]=paste(region, tmp_sunburst[index_regions],
     # sep='-') }
 
 
-    tmp_sunburst <- gsub("NT_", "NT-", tmp_sunburst, fixed = T)
-    tmp_sunburst <- gsub("AA_", "AA-", tmp_sunburst, fixed = T)
-    tmp_sunburst <- gsub("_Diff", "-Diff_with_germline", tmp_sunburst, fixed = T)
+    tmp_sunburst <- gsub("NT_", "NT-", tmp_sunburst, fixed = TRUE)
+    tmp_sunburst <- gsub("AA_", "AA-", tmp_sunburst, fixed = TRUE)
+    tmp_sunburst <- gsub("_Diff", "-Diff_with_germline", tmp_sunburst, fixed = TRUE)
     tmp_index <- which(!grepl("-Diff_with_germline", tmp_sunburst))
     tmp_sunburst[tmp_index] <- paste(tmp_sunburst[tmp_index], "-Sequence_values", sep = "")
 
@@ -415,9 +415,9 @@ show_selected_features <- function(tmp_sunburst = tmp_sunburst, region = region)
         )
     )
     tmp_sunburst[tmp_index] <- gsub("NT-", "NT-Composition-", tmp_sunburst[tmp_index])
-    tmp_sunburst[tmp_index] <- gsub("^AA-", "AA-Composition-Aminoacids-", tmp_sunburst[tmp_index], perl = T)
+    tmp_sunburst[tmp_index] <- gsub("^AA-", "AA-Composition-Aminoacids-", tmp_sunburst[tmp_index], perl = TRUE)
     tmp_index <- which(grepl("counts", tmp_sunburst))
-    tmp_sunburst[tmp_index] <- gsub("^AA-", "AA-Composition-Codons-", tmp_sunburst[tmp_index], perl = T)
+    tmp_sunburst[tmp_index] <- gsub("^AA-", "AA-Composition-Codons-", tmp_sunburst[tmp_index], perl = TRUE)
     # print(tmp_sunburst[tmp_index])
 
     tmp_index <- which(
@@ -429,14 +429,14 @@ show_selected_features <- function(tmp_sunburst = tmp_sunburst, region = region)
             tmp_sunburst
         )
     )
-    tmp_sunburst[tmp_index] <- gsub("cold_", "cold-", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("hot_", "hot-", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("_R_", "-R_", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("_F_", "-F_", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("_count", "-count", tmp_sunburst[tmp_index], fixed = T)
+    tmp_sunburst[tmp_index] <- gsub("cold_", "cold-", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("hot_", "hot-", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("_R_", "-R_", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("_F_", "-F_", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("_count", "-count", tmp_sunburst[tmp_index], fixed = TRUE)
     tmp_sunburst[tmp_index] <- gsub("NT-", "NT-Hot/Cold motifs-", tmp_sunburst[tmp_index])
-    tmp_sunburst[tmp_index] <- gsub("^AA-", "AA-Hot/Cold motifs-", tmp_sunburst[tmp_index], perl = T)
+    tmp_sunburst[tmp_index] <- gsub("^AA-", "AA-Hot/Cold motifs-", tmp_sunburst[tmp_index], perl = TRUE)
 
     tmp_index <- which(
         grepl(
@@ -492,10 +492,10 @@ show_selected_features <- function(tmp_sunburst = tmp_sunburst, region = region)
     tmp_index <- which(grepl("lv_dist", tmp_sunburst))
     tmp_sunburst[tmp_index] <- gsub(
         "Transitions-Transversions", "TransitionsToTransversions", tmp_sunburst[tmp_index],
-        fixed = T
+        fixed = TRUE
     )
-    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("_count", "-count", tmp_sunburst[tmp_index], fixed = T)
+    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("_count", "-count", tmp_sunburst[tmp_index], fixed = TRUE)
     tmp_sunburst[tmp_index] <- gsub("NT-", "NT-Leveshtein distance-", tmp_sunburst[tmp_index])
     tmp_sunburst[tmp_index] <- gsub("AA-", "AA-Leveshtein distance-", tmp_sunburst[tmp_index])
 
@@ -503,24 +503,24 @@ show_selected_features <- function(tmp_sunburst = tmp_sunburst, region = region)
     tmp_index <- which(grepl("Transitions|Transversions", tmp_sunburst))
     tmp_sunburst[tmp_index] <- gsub(
         "Transitions-Transversions", "TransitionsToTransversions", tmp_sunburst[tmp_index],
-        fixed = T
+        fixed = TRUE
     )
-    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("_count", "-count", tmp_sunburst[tmp_index], fixed = T)
+    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("_count", "-count", tmp_sunburst[tmp_index], fixed = TRUE)
     tmp_sunburst[tmp_index] <- gsub("NT-", "NT-Transitions and transversions-", tmp_sunburst[tmp_index])
     tmp_sunburst[tmp_index] <- gsub("AA-", "AA-Transitions and transversions-", tmp_sunburst[tmp_index])
 
     tmp_index <- which(grepl("Replacement|Silent", tmp_sunburst))
     tmp_sunburst[tmp_index] <- gsub(
-        "Silent-Replacement", "SilentToReplacement", tmp_sunburst[tmp_index], fixed = T
+        "Silent-Replacement", "SilentToReplacement", tmp_sunburst[tmp_index], fixed = TRUE
     )
-    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = T)
+    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = TRUE)
     tmp_sunburst[tmp_index] <- gsub("NT-", "NT-Replacement and silent mutations-", tmp_sunburst[tmp_index])
     tmp_sunburst[tmp_index] <- gsub("AA-", "AA-Replacement and silent mutations-", tmp_sunburst[tmp_index])
 
     tmp_index <- which(grepl("_to_", tmp_sunburst))
-    tmp_sunburst[tmp_index] <- gsub("_count", "-count", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = T)
+    tmp_sunburst[tmp_index] <- gsub("_count", "-count", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = TRUE)
     tmp_sunburst[tmp_index] <- gsub("NT-", "NT-Mutations, from A to B-", tmp_sunburst[tmp_index])
     tmp_sunburst[tmp_index] <- gsub("AA-", "AA-Mutations, from A to B-", tmp_sunburst[tmp_index])
 
@@ -537,10 +537,10 @@ show_selected_features <- function(tmp_sunburst = tmp_sunburst, region = region)
             tmp_sunburst
         )
     )
-    tmp_sunburst[tmp_index] <- gsub("Peptides_", "Peptides-", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("alkzm_", "alkzm-", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("_count", "-count", tmp_sunburst[tmp_index], fixed = T)
-    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = T)
+    tmp_sunburst[tmp_index] <- gsub("Peptides_", "Peptides-", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("alkzm_", "alkzm-", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("_count", "-count", tmp_sunburst[tmp_index], fixed = TRUE)
+    tmp_sunburst[tmp_index] <- gsub("_norm", "-norm", tmp_sunburst[tmp_index], fixed = TRUE)
     tmp_sunburst[tmp_index] <- gsub("NT-", "NT-Peptide features-", tmp_sunburst[tmp_index])
     tmp_sunburst[tmp_index] <- gsub("AA-", "AA-Peptide features-", tmp_sunburst[tmp_index])
 

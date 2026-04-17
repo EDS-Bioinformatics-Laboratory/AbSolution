@@ -9,9 +9,9 @@
 draw_feature_violinplot <- function(
     values, name_values, sequence_info_df, group_info,
     additional_group_info = "Patient",
-    show_reconstructed, compare_opposites=F, selected_rows,
+    show_reconstructed, compare_opposites=FALSE, selected_rows,
     selected_subclones = NULL, selected_clones = NULL,hide_dots = FALSE,
-    really_hide_dots=F, width=1400, height=1000, img_type= "png", scale=4,
+    really_hide_dots=FALSE, width=1400, height=1000, img_type= "png", scale=4,
     seed=1234, source="feature_violinplot", primary_color="#09BC8A"
 ) {
   set.seed(seed)
@@ -125,7 +125,7 @@ draw_feature_violinplot <- function(
               "positive"
             } else {
               "negative"
-            }, box = list(visible = T, line = list(color = "#2D2926")),
+            }, box = list(visible = TRUE, line = list(color = "#2D2926")),
             points = if(really_hide_dots){FALSE}else{"all"}, pointpos = if (seq_type == "Reconstructed_germline") {
               0.5
             } else {
@@ -201,7 +201,7 @@ draw_feature_violinplot <- function(
                 "positive"
               } else {
                 "negative"
-              }, box = list(visible = T, line = list(color = "#2D2926")),
+              }, box = list(visible = TRUE, line = list(color = "#2D2926")),
               points = if(really_hide_dots){FALSE}else{"all"}, pointpos = if (seq_type == "Reconstructed_germline") {
                 0.5
               } else {
@@ -249,7 +249,7 @@ draw_feature_violinplot <- function(
                   }, color = index_colors_sub, zorder = 2
                 )
               ),
-              showlegend = F
+              showlegend = FALSE
             )
           }
 
@@ -302,7 +302,7 @@ draw_feature_violinplot <- function(
               1))
         } else {
           NULL
-        }, name = single_group, box = list(visible = T, line = list(color = "#2D2926")),
+        }, name = single_group, box = list(visible = TRUE, line = list(color = "#2D2926")),
         points = if(really_hide_dots){FALSE}else{"all"}, pointpos = 0, jitter = 0.25, scalemode = "count",
         meanline = list(visible = T),
         color = I(
@@ -347,7 +347,7 @@ draw_feature_violinplot <- function(
             }, color = "#000000", zorder = 2
           )
         ),
-        showlegend = F
+        showlegend = FALSE
       )
 
 
@@ -369,7 +369,7 @@ draw_feature_violinplot <- function(
             NULL
           }, name = single_group, box = list(visible = T, line = list(color = "#2D2926")),
           points =if(really_hide_dots){FALSE}else{"all"}, pointpos = 0, jitter = 0.25, scalemode = "count",
-          meanline = list(visible = T),
+          meanline = list(visible = TRUE),
           color = I(
             if (i%%2 != 0) {
               primary_color
@@ -412,7 +412,7 @@ draw_feature_violinplot <- function(
               }, color = index_colors_sub, zorder = 2
             )
           ),
-          showlegend = F
+          showlegend = FALSE
         )
       }
 

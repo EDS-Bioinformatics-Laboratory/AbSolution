@@ -1,11 +1,18 @@
 #' 4_Clonal_exploration
 #'
-#' @description A utils function
+#' @description **Internal function.** Not intended for direct use. Exported only for
+#'    `shinymeta` report rendering via `::` access. Use [run_app()] instead.
 #'
 #' @return The return value, if any, from executing the utility.
 #'
 #' @keywords internal
 #' @export
+#' @examples
+#' \donttest{
+#'   # Internal function exported for shinymeta :: access during report rendering.
+#'   # Requires a live Shiny reactive context and real AIRR-seq data.
+#'   # Use run_app() as the user-facing entry point.
+#' }
 calculate_clone <- function(
     seq_df, clonotype, AA_or_NT = "NT", region = "CDR3", percentage = 100, calculate_shared_clones
 ) {
@@ -90,16 +97,23 @@ calculate_clone <- function(
 
 #' 4_Clonal_exploration
 #'
-#' @description A utils function
+#' @description **Internal function.** Not intended for direct use. Exported only for
+#'    `shinymeta` report rendering via `::` access. Use [run_app()] instead.
 #'
 #' @return The return value, if any, from executing the utility.
 #' @import plotly
 #' @keywords internal
 #' @export
+#' @examples
+#' \donttest{
+#'   # Internal function exported for shinymeta :: access during report rendering.
+#'   # Requires a live Shiny reactive context and real AIRR-seq data.
+#'   # Use run_app() as the user-facing entry point.
+#' }
 draw_violinplots <- function(
     seq_df, group = "Patient_Sample", selected_rows, clonotype, AA_or_NT = "AA", region = "CDR3",
     percentage = 100, freq_filter = 0, Selected_clones = NULL, dominance_threshold, seed=1234,
-    really_hide_dots=F, width=1400, height=1000,img_type= "png", scale=4,
+    really_hide_dots=FALSE, width=1400, height=1000,img_type= "png", scale=4,
     source="clone_violinplot"
 ) {
     set.seed(seed)
@@ -261,7 +275,7 @@ draw_violinplots <- function(
                     "positive"
                   } else {
                     "negative"
-                  }, box = list(visible = T, line = list(color = "#2D2926")),
+                  }, box = list(visible = TRUE, line = list(color = "#2D2926")),
                   points = if(really_hide_dots){FALSE}else{"all"}, pointpos = if (seq_type == "Reconstructed_germline") {
                     0.5
                   } else {
@@ -335,7 +349,7 @@ draw_violinplots <- function(
                       "positive"
                     } else {
                       "negative"
-                    }, box = list(visible = T, line = list(color = "#2D2926")),
+                    }, box = list(visible = TRUE, line = list(color = "#2D2926")),
                     points = if(really_hide_dots){FALSE}else{"all"}, pointpos = if (seq_type == "Reconstructed_germline") {
                       0.2
                     } else {
@@ -364,7 +378,7 @@ draw_violinplots <- function(
                   #   )
                   # ),
                   #   selected = list(marker = list(size = 10, opacity = 1, color = "#000000", zorder = 2)),
-                    showlegend = F
+                    showlegend = FALSE
                 )
                 }
             }
@@ -414,12 +428,19 @@ draw_violinplots <- function(
 
 #' 4_Clonal_exploration
 #'
-#' @description A utils function
+#' @description **Internal function.** Not intended for direct use. Exported only for
+#'    `shinymeta` report rendering via `::` access. Use [run_app()] instead.
 #'
 #' @return The return value, if any, from executing the utility.
 #' @import upsetjs
 #' @keywords internal
 #' @export
+#' @examples
+#' \donttest{
+#'   # Internal function exported for shinymeta :: access during report rendering.
+#'   # Requires a live Shiny reactive context and real AIRR-seq data.
+#'   # Use run_app() as the user-facing entry point.
+#' }
 draw_upsetplot <- function(
     seq_df, group = "Patient", selected_rows, clonotype, AA_or_NT = "AA", region = "CDR3",
     percentage = 100, freq_filter = 0, Selected_clones = NULL
@@ -492,13 +513,20 @@ vline <- function(x = 0, color = "#2D2926") {
 
 #' 4_Clonal_exploration
 #'
-#' @description A utils function
+#' @description **Internal function.** Not intended for direct use. Exported only for
+#'    `shinymeta` report rendering via `::` access. Use [run_app()] instead.
 #'
 #' @return The return value, if any, from executing the utility.
 #' @import plotly
 #' @import utils
 #' @keywords internal
 #' @export
+#' @examples
+#' \donttest{
+#'   # Internal function exported for shinymeta :: access during report rendering.
+#'   # Requires a live Shiny reactive context and real AIRR-seq data.
+#'   # Use run_app() as the user-facing entry point.
+#' }
 draw_sharedclonesplot <- function(
     seq_df, sets = NULL, group = "Patient", selected_rows, clonotype, AA_or_NT = "AA",
     region = "CDR3", percentage = 100, freq_filter = 0, Selected_clones = NULL, dominance_threshold,
@@ -780,7 +808,7 @@ draw_sharedclonesplot <- function(
 
     sharedclonesplot <- subplot(
         list_figs, nrows = ceiling(length(list_figs)/3),
-        margin = 0.05, titleY = T, titleX = TRUE
+        margin = 0.05, titleY = TRUE, titleX = TRUE
     )%>%
       config(
         toImageButtonOptions = list(

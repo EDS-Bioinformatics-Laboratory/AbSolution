@@ -1,12 +1,18 @@
 #' 2_Feature_determination_1
 #'
-#' @description A fct function
-#'
+#' @description **Internal function.** Not intended for direct use. Exported only for
+#'    `shinymeta` report rendering via `::` access. Use [run_app()] instead.
 #' @return The return value, if any, from executing the function.
 #' @import dplyr
 #' @importFrom Biostrings subseq GENETIC_CODE
 #' @keywords internal
 #' @export
+#' @examples
+#' \donttest{
+#'   # Internal function exported for shinymeta :: access during report rendering.
+#'   # Requires a live Shiny reactive context and real AIRR-seq data.
+#'   # Use run_app() as the user-facing entry point.
+#' }
 Feature_1 <- function(path_base, grouping_by) {
     input_path <- paste(path_base, "/1.Files_parsed", sep = "")
     output_path <- paste(path_base, "/2.Feature_determination", sep = "")
@@ -15,7 +21,7 @@ Feature_1 <- function(path_base, grouping_by) {
 
     IMGT_parsed_index <- data.table::fread(
         file.path(input_path, "IMGT_parsed_index.txt"),
-        header = T, na.strings=NULL, sep = "\t"
+        header = TRUE, na.strings=NULL, sep = "\t"
     )
     IMGT_parsed_index[is.na(IMGT_parsed_index)] = "" ## in case NA strings doesnt work
 
@@ -78,8 +84,9 @@ Feature_1 <- function(path_base, grouping_by) {
 
 #' 2_Feature_determination_2
 #'
-#' @description A fct function
-#'
+#' @description
+#'    **Internal function.** Not intended for direct use. Exported only for
+#'    `shinymeta` report rendering via `::` access. Use [run_app()] instead.
 #' @return The return value, if any, from executing the function.
 #' @import parallel
 #' @import foreach
@@ -89,8 +96,14 @@ Feature_1 <- function(path_base, grouping_by) {
 #' @importFrom data.table :=
 #' @keywords internal
 #' @export
+#' @examples
+#' \donttest{
+#'   # Internal function exported for shinymeta :: access during report rendering.
+#'   # Requires a live Shiny reactive context and real AIRR-seq data.
+#'   # Use run_app() as the user-facing entry point.
+#' }
 Feature__dataset <- function(
-    path_base, DF_to_parse, name_DF_to_parse, FWR1partial, FWR4partial, standard = T
+    path_base, DF_to_parse, name_DF_to_parse, FWR1partial, FWR4partial, standard = TRUE
 ) {
   DF_to_parse[is.na(DF_to_parse)] = "" ## in case NA strings doesnt work
 
@@ -245,7 +258,7 @@ Feature__dataset <- function(
         cl = cl, unclass(
             lsf.str(
                 envir = asNamespace("AbSolution"),
-                all = T
+                all = TRUE
             )
         ),
         envir = as.environment(asNamespace("AbSolution"))
@@ -256,7 +269,7 @@ Feature__dataset <- function(
             "nt_changes", "subseq_func", "str_length", "translate_fun"
         ),
         .packages = c("data.table", "Biostrings"),
-        .verbose = F
+        .verbose = FALSE
     ) %dopar%
         {
             as.data.frame(
@@ -368,7 +381,7 @@ Feature__dataset <- function(
     colnames(tmp_example) <- names(test$Matrix$Germ)
     write.table(
         tmp_example, file = file.path(output_path, paste0(name_DF_to_parse, ".example")),
-        sep = "\t", quote = F, row.names = F, col.names = T
+        sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE
     )
 
     # tmp_FBM=FBM(nrow=length(test$Matrix$Rep),ncol=nrow(DF_to_parse),
@@ -376,7 +389,7 @@ Feature__dataset <- function(
     tmp_FBM <- FBM(
         ncol = length(test$Matrix$Rep),
         nrow = nrow(DF_to_parse),
-        is_read_only = F, backingfile = file.path(output_path, name_DF_to_parse)
+        is_read_only = FALSE, backingfile = file.path(output_path, name_DF_to_parse)
     )
     # block.size=2*(round(block_size(ncol(tmp_FBM), ncores = nb_cores())/2))
 
@@ -436,7 +449,7 @@ Feature__dataset <- function(
         cl = cl, unclass(
             lsf.str(
                 envir = asNamespace("AbSolution"),
-                all = T
+                all = TRUE
             )
         ),
         envir = as.environment(asNamespace("AbSolution"))
@@ -488,7 +501,7 @@ Feature__dataset <- function(
                 "stringdist"
             ),
             .packages = c("alakazam", "Peptides", "Biostrings", "BiocGenerics", "data.table", "stringr"),
-            .verbose = F
+            .verbose = FALSE
         ) %dopar%
             {
                 full_analysis(
@@ -530,7 +543,7 @@ Feature__dataset <- function(
     info_df <- cbind(DF_to_parse, info_df)
     write.table(
         info_df, file = file.path(output_path, paste0(name_DF_to_parse, ".info")),
-        sep = "\t", quote = F, row.names = F, col.names = T
+        sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE
     )
     rm(info_df)
     gc()
