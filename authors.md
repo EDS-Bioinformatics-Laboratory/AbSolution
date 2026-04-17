@@ -17,14 +17,12 @@
 Source:
 [`DESCRIPTION`](https://github.com/EDS-Bioinformatics-Laboratory/AbSolution/blob/main/DESCRIPTION)
 
-García-Valiente R, Triantafyllou C, van Kampen A (2026). *AbSolution: An
-Interactive Application for Feature-Based Analysis of AIRR-Seq Data
-Enabling Automation and Computational Reproducibility*. R package
-version 1.0.0,
-<https://github.com/EDS-Bioinformatics-Laboratory/AbSolution>.
+García-Valiente R, Triantafyllou C, van Kampen A (2026). *AbSolution:
+Interactive Feature-Based Analysis of AIRR-Seq Data*. R package version
+1.0.0, <https://github.com/EDS-Bioinformatics-Laboratory/AbSolution>.
 
     @Manual{,
-      title = {AbSolution: An Interactive Application for Feature-Based Analysis of AIRR-Seq Data Enabling Automation and Computational Reproducibility},
+      title = {AbSolution: Interactive Feature-Based Analysis of AIRR-Seq Data},
       author = {Rodrigo García-Valiente and Charisios Triantafyllou and Antoine {van Kampen}},
       year = {2026},
       note = {R package version 1.0.0},

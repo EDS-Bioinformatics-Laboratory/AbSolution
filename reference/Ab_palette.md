@@ -1,8 +1,11 @@
 # Ab_palette: color ranges adapted to the BCR/TCR gene structure
 
-Returns a vector of colors according to the input. For V/D/J/VJ/VDJ
-inputs, the colors are produced in a way that genes and combination of
-genes from the same family are assigned a similar color.
+\#' @description \*\*Internal function.\*\* Not intended for direct use.
+Exported only for \`shinymeta\` report rendering via \`::\` access. Use
+\[run_app()\] instead. Returns a vector of colors according to the
+input. For V/D/J/VJ/VDJ inputs, the colors are produced in a way that
+genes and combination of genes from the same family are assigned a
+similar color.
 
 ## Usage
 
@@ -11,7 +14,7 @@ Ab_palette(
   list_values,
   vect_genes_comb = NA,
   type_values = c("V", "D", "J", "VJ", "VDJ", "cuantitative", "cualitative"),
-  colorblind = F,
+  colorblind = FALSE,
   seed = 1234
 )
 ```
@@ -43,3 +46,13 @@ Ab_palette(
 ## Value
 
 palette_colors: a (named) vector of colors
+
+## Examples
+
+``` r
+# \donttest{
+  # Internal function exported for shinymeta :: access during report rendering.
+  # Requires a live Shiny reactive context and real AIRR-seq data.
+  # Use run_app() as the user-facing entry point.
+# }
+```
