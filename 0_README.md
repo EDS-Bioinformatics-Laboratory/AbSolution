@@ -259,11 +259,8 @@ module wiring. **Script 4:** R/mod\_* files - module scripts used by UI
 and server. **Script 5:** R/fct/util\_\* files - function and util
 scripts, organized by step in which they are used.
 
-**Description of manual steps**: - Install dependencies listed in
-DESCRIPTION (CRAN/Bioconductor). - Update information in dev/ scripts -
-Build and document the package:
-`devtools::document(); devtools::install()`. - Build vignettes:
-`devtools::build_vignettes()`. - Launch the app:
+**Description of manual steps**: - Build and document the package from
+CRAN: `install.packages("AbSolution")`. - Launch the app:
 [`AbSolution::run_app()`](https://eds-bioinformatics-laboratory.github.io/AbSolution/reference/run_app.md)
 
 **Relation between the scripts, and user instructions for execution:** -

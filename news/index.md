@@ -2,6 +2,8 @@
 
 ## AbSolution 1.0.0
 
+CRAN release: 2026-04-21
+
 - Initial CRAN release.
 - AIRR-Seq parsing with automatic germline reconstruction.
 - Sequence feature extraction: nucleotide/amino acid properties,

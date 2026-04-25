@@ -36,6 +36,13 @@ reproducibility.
 
 ## Installation
 
+### From CRAN - Recommended
+
+``` r
+if (!requireNamespace("AbSolution", quietly = TRUE))
+    install.packages("AbSolution")
+```
+
 ### From GitHub
 
 ``` r
