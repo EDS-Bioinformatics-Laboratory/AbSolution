@@ -4,7 +4,7 @@
 
 * This is a new release.
 
-## 12/04/2026 - Resubmission: reviewer comments addressed
+## 17/04/2026 - Resubmission: reviewer comments addressed
 
 * **Title**: Shortened to under 65 characters.
 
@@ -40,3 +40,43 @@
 - `draw_feature_violinplot()`
 - `Ab_palette()`
 - `validate_before_run()`
+
+The package has been tested with no ERRORs or WARNINGs
+(only the expected NOTE for new submission) on: my
+development machine (Ubuntu 24.04, R 4.5.3),
+win-builder with R-devel (Windows Server 2022, R
+4.6.0 alpha), and via rhub::rhub_check() on linux
+(ubuntu-latest, R-devel), macos-arm64 (macos-latest,
+R-devel), windows (windows-latest, R-devel), and
+atlas (Fedora 42, R-devel).
+
+Thanks for your work once again!
+
+## 06/04/2026 - First submission
+
+AbSolution is a Shiny application for interactive
+analysis of B-cell and T-cell receptor repertoires.
+We are aware of the number of Imports — this is
+because the app provides an end-to-end pipeline
+within a single tool, covering sequence parsing
+(Biostrings, pwalign, IRanges, alakazam), scalable
+computation on large datasets (bigstatsr,
+bigparallelr), interactive visualization (plotly, DT,
+reactable, upsetjs), the Shiny UI and its extensions
+(bs4Dash, shinyFiles, shinyWidgets, shinymeta,
+shinymanager), and reproducible export with
+containerization support (golem, dockerfiler,
+rmarkdown). I confirm none can be removed or moved to
+suggests without breaking core functionality.
+
+The package has been tested with no ERRORs or WARNINGs
+(only the expected NOTE for new submission) on: my
+development machine (Ubuntu 24.04, R 4.5.3),
+win-builder with R-devel (Windows Server 2022, R
+4.6.0 alpha), and via rhub::rhub_check() on linux
+(ubuntu-latest, R-devel), macos-arm64 (macos-latest,
+R-devel), windows (windows-latest, R-devel), and
+atlas (Fedora 42, R-devel).
+
+Thanks for your work!
+

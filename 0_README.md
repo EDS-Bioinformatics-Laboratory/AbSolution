@@ -179,10 +179,7 @@ In bold the documentation that should be provided at a minimum in the context of
 
 
 **Description of manual steps**:
-- Install dependencies listed in DESCRIPTION (CRAN/Bioconductor).
-- Update information in dev/ scripts
-- Build and document the package: `devtools::document(); devtools::install()`.
-- Build vignettes: `devtools::build_vignettes()`.
+- Build and document the package from CRAN: `install.packages("AbSolution")`.
 - Launch the app: `AbSolution::run_app()`
 
 **Relation between the scripts, and user instructions for execution:**

@@ -29,6 +29,13 @@ AbSolution supports identification and visualization of variable region characte
 
 ## Installation
 
+### From CRAN - Recommended
+
+```r
+if (!requireNamespace("AbSolution", quietly = TRUE))
+    install.packages("AbSolution")
+```
+
 ### From GitHub
 
 ```r
