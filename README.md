@@ -1,6 +1,7 @@
 
 <!-- badges: start -->
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![CRAN status](https://www.r-pkg.org/badges/version/AbSolution)](https://cran.r-project.org/package=AbSolution)
 <!-- badges: end -->
 
 <p align="center">
@@ -28,6 +29,15 @@ AbSolution supports identification and visualization of variable region characte
 ---
 
 ## Installation
+
+### From CRAN - Recommended
+
+AbSolution is available on CRAN: https://cran.r-project.org/package=AbSolution
+
+```r
+if (!requireNamespace("AbSolution", quietly = TRUE))
+    install.packages("AbSolution")
+```
 
 ### From GitHub
 
