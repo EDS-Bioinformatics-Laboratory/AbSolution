@@ -36,13 +36,6 @@ reproducibility.
 
 ## Installation
 
-### From CRAN - Recommended
-
-``` r
-if (!requireNamespace("AbSolution", quietly = TRUE))
-    install.packages("AbSolution")
-```
-
 ### From GitHub
 
 ``` r
@@ -60,7 +53,7 @@ remotes::install_github("EDS-Bioinformatics-Laboratory/AbSolution")
 ### From source
 
 ``` r
-install.packages("AbSolution_1.0.0.tar.gz", repos = NULL, type = "source")
+install.packages("AbSolution_1.0.1.tar.gz", repos = NULL, type = "source")
 ```
 
 ### From a shared exported proyect
