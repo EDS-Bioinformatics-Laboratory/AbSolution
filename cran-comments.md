@@ -7,7 +7,12 @@ from a dependency's DESCRIPTION. The fix adds Bioconductor to
 `Additional_repositories` in this package's own DESCRIPTION so that the
 dependency is resolved correctly on first install.
 
-Apologies for the trouble.
+Apologies for the trouble, this was something I did not expect.
+
+### Test environments
+
+* local: Ubuntu 24.04.3 LTS, R 4.5.3
+* win-builder: release and devel
 
 ## 17/04/2026 - Resubmission: reviewer comments addressed
 
