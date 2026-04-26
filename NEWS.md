@@ -1,5 +1,8 @@
 # AbSolution 1.0.1
-* Fixed a missing GenomicAlignments import required for Feature calculation.
+* Fixed installation from a clean R environment: added `Additional_repositories`
+  to `DESCRIPTION` so that Bioconductor packages required by `alakazam`
+  (specifically `GenomicAlignments`) are resolved automatically during
+  `install.packages()`.
 
 # AbSolution 1.0.0
 

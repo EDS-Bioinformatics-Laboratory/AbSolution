@@ -1,13 +1,13 @@
 ## 26/04/2026 - Patch release
 
-This is a small patch release shortly after the previous CRAN publication.
+This is a patch release fixing an installation failure reported in clean R
+environments. `alakazam` depends on `GenomicAlignments` (Bioconductor), but
+`install.packages()` does not propagate `Additional_repositories` transitively
+from a dependency's DESCRIPTION. The fix adds Bioconductor to
+`Additional_repositories` in this package's own DESCRIPTION so that the
+dependency is resolved correctly on first install.
 
-The previous version was missing `GenomicAlignments` from Imports in DESCRIPTION, 
-relevant for the Feature calculation step. 
-
-This release adds the missing import, solving it.
-
-There are no API changes. Apologies for the trouble.
+Apologies for the trouble.
 
 ## 17/04/2026 - Resubmission: reviewer comments addressed
 
