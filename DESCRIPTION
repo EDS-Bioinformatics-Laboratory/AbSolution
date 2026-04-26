@@ -49,6 +49,7 @@ Imports:
     foreach,
     fresh,
     fs,
+    GenomicAlignments,
     ggplot2,
     golem (>= 0.4.1),
     grDevices,
