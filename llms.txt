@@ -36,6 +36,16 @@ reproducibility.
 
 ## Installation
 
+### From CRAN - Recommended
+
+AbSolution is available on CRAN:
+<https://cran.r-project.org/package=AbSolution>
+
+``` r
+if (!requireNamespace("AbSolution", quietly = TRUE))
+    install.packages("AbSolution")
+```
+
 ### From GitHub
 
 ``` r

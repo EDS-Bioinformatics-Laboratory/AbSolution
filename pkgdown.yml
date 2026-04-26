@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   AbSolution: AbSolution.html
-last_built: 2026-04-26T10:29Z
+last_built: 2026-04-26T10:31Z
 urls:
   reference: https://eds-bioinformatics-laboratory.github.io/AbSolution/reference
   article: https://eds-bioinformatics-laboratory.github.io/AbSolution/articles
