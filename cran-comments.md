@@ -11,8 +11,27 @@ Apologies for the trouble, this was something I did not expect.
 
 ### Test environments
 
-* local: Ubuntu 24.04.3 LTS, R 4.5.3
-* win-builder: release and devel
+* local: Ubuntu 24.04.3 LTS, R 4.5.3.  0 errors | 0 warnings | 1 note
+* win-builder: release and devel. 0 errors | 0 warnings | 1 note
+
+#### R CMD check results
+
+0 errors | 0 warnings | 1 note
+
+##### Notes
+
+###### Maintainer / Days since last update
+Expected for a resubmission within the same week.
+
+###### Availability using Additional_repositories specification: ? ?
+`R CMD check` reports `?` for `https://bioconductor.org/packages/release/bioc`
+on all platforms (win-builder, Ubuntu). This is a known behaviour: the check
+tool cannot verify availability of Bioconductor repos deterministically, but
+the repository is reachable and the packages are available:
+
+    available.packages(repos = "https://bioconductor.org/packages/release/bioc")
+    # "GenomicAlignments" %in% pkgs[, "Package"] -> TRUE
+
 
 ## 17/04/2026 - Resubmission: reviewer comments addressed
 
