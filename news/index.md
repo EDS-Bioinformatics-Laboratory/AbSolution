@@ -1,5 +1,10 @@
 # Changelog
 
+## AbSolution 1.0.1
+
+- Fixed a missing GenomicAlignments import required for Feature
+  calculation.
+
 ## AbSolution 1.0.0
 
 CRAN release: 2026-04-21
