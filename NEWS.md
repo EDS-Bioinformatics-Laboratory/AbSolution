@@ -1,3 +1,6 @@
+# AbSolution 1.0.1
+* Fixed a missing GenomicAlignments import required for Feature calculation.
+
 # AbSolution 1.0.0
 
 * Initial CRAN release.

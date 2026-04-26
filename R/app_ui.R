@@ -1212,7 +1212,7 @@ app_ui <- function(request) {
               href = "https://www.linkedin.com/in/rodrigogarciavaliente/",
               target = "_blank", "@RGarciaValiente"
             ),
-            right = "2026, version 1.0.0"
+            right = "2026, version 1.0.1"
           )
 
         )

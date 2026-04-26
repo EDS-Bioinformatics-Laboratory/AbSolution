@@ -1,6 +1,6 @@
 Package: AbSolution
 Title: Interactive Feature-Based Analysis of AIRR-Seq Data
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Rodrigo", "García-Valiente", , "r.garciavaliente@amsterdamumc.nl", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-0444-5587", email2 = "rodrigo.garcia.valiente+absolution@email.com")),

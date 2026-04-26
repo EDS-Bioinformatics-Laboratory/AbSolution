@@ -1,8 +1,13 @@
-## R CMD check results
+## 26/04/2026 - Patch release
 
-0 errors | 0 warnings | 1 note
+This is a small patch release shortly after the previous CRAN publication.
 
-* This is a new release.
+The previous version was missing `GenomicAlignments` from Imports in DESCRIPTION, 
+relevant for the Feature calculation step. 
+
+This release adds the missing import, solving it.
+
+There are no API changes. Apologies for the trouble.
 
 ## 17/04/2026 - Resubmission: reviewer comments addressed
 
