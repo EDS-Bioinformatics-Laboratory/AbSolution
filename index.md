@@ -42,6 +42,7 @@ AbSolution is available on CRAN:
 <https://cran.r-project.org/package=AbSolution>
 
 ``` r
+
 if (!requireNamespace("AbSolution", quietly = TRUE))
     install.packages("AbSolution")
 ```
@@ -49,6 +50,7 @@ if (!requireNamespace("AbSolution", quietly = TRUE))
 ### From GitHub
 
 ``` r
+
 # Install Bioconductor dependencies first
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
@@ -63,6 +65,7 @@ remotes::install_github("EDS-Bioinformatics-Laboratory/AbSolution")
 ### From source
 
 ``` r
+
 install.packages("AbSolution_1.0.1.tar.gz", repos = NULL, type = "source")
 ```
 
@@ -87,12 +90,14 @@ A renv.lock file is available in the `0_SoftwareEnvironment/R/`
 directory of the exported project:
 
 ``` r
+
 renv::restore(lockfile = "0_SoftwareEnvironment/R/renv.lock")
 ```
 
 #### Install AbSolution exported source file
 
 ``` r
+
 install.packages("0_SoftwareEnvironment/R/AbSolution_1.0.0.tar.gz", repos = NULL, type = "source")
 ```
 
@@ -101,6 +106,7 @@ install.packages("0_SoftwareEnvironment/R/AbSolution_1.0.0.tar.gz", repos = NULL
 ## Quick start
 
 ``` r
+
 library(AbSolution)
 run_app()
 ```
@@ -111,6 +117,7 @@ available to explore all features without needing your own data.
 For a complete guide, see the package vignette:
 
 ``` r
+
 vignette("AbSolution")
 ```
 

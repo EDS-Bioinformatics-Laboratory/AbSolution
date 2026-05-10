@@ -17,6 +17,7 @@ customize the app.
 This is easy. Only two lines are required.
 
 ``` r
+
 # Load required package
 library(AbSolution)
 

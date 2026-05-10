@@ -2,7 +2,7 @@
 
 ### CODE
 
-**Explanation**:
+Explanation:
 
 *This directory contains the code you use (and developed) as part of
 this project.*

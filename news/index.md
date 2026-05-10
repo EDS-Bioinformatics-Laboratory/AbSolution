@@ -2,6 +2,8 @@
 
 ## AbSolution 1.0.1
 
+CRAN release: 2026-04-27
+
 - Fixed installation from a clean R environment: added
   `Additional_repositories` to `DESCRIPTION` so that Bioconductor
   packages required by `alakazam` (specifically `GenomicAlignments`) are
